@@ -1,6 +1,7 @@
-public class Exercise24 {
-
-    public static void main(String[] args) {
+public class Exercise24
+{
+    public static void main(String[] args)
+    {
         String knockKnock = "Knack, knack. \n"
                 + "Wha's there?\n"
                 + "Interrupting caw.\n"
@@ -9,7 +10,10 @@ public class Exercise24 {
 
         // 1. Use the replace method to replace all occurrences of "a" with "o" from knockKnock.
         // 2. Assign the result to a new variable.
+        String newKnockKnock = knockKnock.replace('a', 'o');
+
         // 3. Print it.
+        System.out.print(newKnockKnock);
 
         // Expected Output:
         // Knock, knock.
