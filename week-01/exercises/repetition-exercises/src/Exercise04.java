@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise04 {
-
-    public static void main(String[] args) {
+public class Exercise04
+{
+    public static void main(String[] args)
+    {
         Scanner console = new Scanner(System.in);
 
         System.out.print("Starting Number: ");
@@ -18,5 +19,7 @@ public class Exercise04 {
         // start - the starting value
         // end - controls the loop condition, the loop continues while the value is less than or equal to end
         // increment - the number to add after each loop
+        for (int x = start; x <= end; x ++)
+            System.out.println(x);
     }
 }

@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise08 {
-    public static void main(String[] args) {
+public class Exercise08
+{
+    public static void main(String[] args)
+    {
         // OPPOSITES
         // Given a word, print its opposite.
         Scanner console = new Scanner(System.in);
@@ -17,6 +19,10 @@ public class Exercise08 {
             opposite = "hot";
         } else if (word.equalsIgnoreCase("little")) {
             opposite = "big";
+        } else if (word.equalsIgnoreCase("fat")) {
+            opposite = "thin";
+        } else if (word.equalsIgnoreCase("bears")) {
+            opposite = "packers";
         }
 
         if (opposite == null) {

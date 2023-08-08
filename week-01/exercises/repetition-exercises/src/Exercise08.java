@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise08 {
-
-    public static void main(String[] args) {
+public class Exercise08
+{
+    public static void main(String[] args)
+    {
         Scanner console = new Scanner(System.in);
 
         // 1. Rewrite the following as a `do/while` statement.
@@ -12,10 +13,10 @@ public class Exercise08 {
         System.out.println("Enter a name (Required): ");
         String name = console.nextLine();
 
-        while (name.isBlank()) {
+        do {
             System.out.println("Enter a name (Required): ");
             name = console.nextLine();
-        }
+        } while (name.isBlank());
 
         System.out.println("Name: " + name);
     }

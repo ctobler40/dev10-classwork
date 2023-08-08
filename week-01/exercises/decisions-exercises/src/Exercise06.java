@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise06 {
-
-    public static void main(String[] args) {
+public class Exercise06
+{
+    public static void main(String[] args)
+    {
         // CRUISE SHIP ACTIVITIES
         // ======================
         // When the cruise ship docks at a port, passengers can choose from one of two activities: snorkeling and shopping.
@@ -20,5 +21,12 @@ public class Exercise06 {
         int shopperCount = Integer.parseInt(console.nextLine());
 
         // 1. Apply if/else here.
+        if (snorkelerCount % 2 == 1)
+        {
+            shopperCount += snorkelerCount;
+            snorkelerCount = 0;
+        }
+        System.out.print(snorkelerCount + " Snorklers\n" +
+                shopperCount + " Shoppers");
     }
 }

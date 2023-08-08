@@ -13,10 +13,14 @@ public class Exercise07 {
         int hoursOfHomework = Integer.parseInt(console.nextLine());
 
         System.out.println("Day of the week: ");
-        String dayOfWeek = console.nextLine();
+        String dayOfWeek = console.next();
 
         // 1. Create if/else statements to enforce Abdi's homework rules.
         // 2. Print data-rich messages for each scenario.
+        if ((dayOfWeek.charAt(0) == 'S' || dayOfWeek.charAt(0) == 's') && hoursOfHomework < 15)
+            System.out.print("I'm taking the day off!");
+        else
+            System.out.print("Time to do the homework...");
 
         // Examples
         // Hours of homework: 12

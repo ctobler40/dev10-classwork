@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise05 {
-
-    public static void main(String[] args) {
+public class Exercise05
+{
+    public static void main(String[] args)
+    {
         Scanner console = new Scanner(System.in);
 
         System.out.print("Enter the secret word: ");
@@ -13,5 +14,12 @@ public class Exercise05 {
         //   You're correct. The secret word is "tahini".
         // Otherwise, print:
         //   That's not quite right. Try again.
+        while (!secret.equals("tahini"))
+        {
+            System.out.print(secret + "? That's not quite right. Try again: ");
+            secret = console.nextLine();
+        }
+
+        System.out.print("You're correct. The secret word is \"tahini\".");
     }
 }

@@ -1,6 +1,7 @@
-public class Exercise01 {
-
-    public static void main(String[] args) {
+public class Exercise01
+{
+    public static void main(String[] args)
+    {
         // The code below prints the numbers 0, 1, 2, 3, 4 each on its own line.
         // 1. Modify the code to print the numbers 1 - 10 each on its own line.
         // You may not change the loop type. It must remain a `while`.
@@ -17,8 +18,8 @@ public class Exercise01 {
         // 9
         // 10
 
-        int index = 0;
-        while (index < 5) {
+        int index = 1;
+        while (index < 11) {
             System.out.println(index);
             index++;
         }

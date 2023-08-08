@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise07 {
-
-    public static void main(String[] args) {
+public class Exercise07
+{
+    public static void main(String[] args)
+    {
         // REMOVE WHITESPACE
         Scanner console = new Scanner(System.in);
 
@@ -14,8 +15,10 @@ public class Exercise07 {
         // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Character.html#isWhitespace(char)
 
         String result = "";
-        for (int i = 0; i < phrase.length(); i++) {
-            result += phrase.charAt(i);
+        for (int i = 0; i < phrase.length(); i++)
+        {
+            if (!Character.isWhitespace(phrase.charAt(i)))
+                result += phrase.charAt(i);
         }
 
         System.out.println("Your phrase without whitespace is: " + result);
