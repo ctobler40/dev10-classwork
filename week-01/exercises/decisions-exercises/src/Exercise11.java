@@ -1,6 +1,7 @@
-public class Exercise11 {
-
-    public static void main(String[] args) {
+public class Exercise11
+{
+    public static void main(String[] args)
+    {
         // MANAGER FEATURE REQUESTS
         // You have three managers: A, B, and C.
         // Occasionally, they ask you to add features to your company software.

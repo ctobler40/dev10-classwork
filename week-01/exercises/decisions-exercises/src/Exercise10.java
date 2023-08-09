@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Exercise10 {
-
-    public static void main(String[] args) {
+public class Exercise10
+{
+    public static void main(String[] args)
+    {
         // USPS
         // Below is an abbreviated version of the US Postal Service retail parcel rates:
         /*
@@ -21,5 +22,38 @@ public class Exercise10 {
         // If a lbs/zone combo does not exist, print a warning message for the user.
 
         Scanner console = new Scanner(System.in);
+
+        System.out.print("Enter lbs: ");
+        int lbs = console.nextInt();
+        System.out.print("Enter zone: ");
+        int zone = console.nextInt();
+        if (zone == 1 || zone == 2)
+        {
+            switch (lbs)
+            {
+                case 1 -> System.out.print("$7.50");
+                case 2 -> System.out.print("$8.25");
+                case 3 -> System.out.print("$8.70");
+                case 4 -> System.out.print("$9.20");
+                case 5 -> System.out.print("$10.20");
+                default -> { }
+            }
+        }
+        else if (zone == 3)
+        {
+            switch (lbs)
+            {
+                case 1 -> System.out.print("$7.85");
+                case 2 -> System.out.print("$8.70");
+                case 3 -> System.out.print("$9.70");
+                case 4 -> System.out.print("$10.55");
+                case 5 -> System.out.print("$11.30");
+                default -> { }
+            }
+        }
+        else
+        {
+            System.out.print("Warning: Outside of the Zone!");
+        }
     }
 }

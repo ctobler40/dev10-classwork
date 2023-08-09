@@ -1,8 +1,10 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Exercise18 {
-
-    public static void main(String[] args) {
+public class Exercise18
+{
+    public static void main(String[] args)
+    {
         // CUT THE MIDDLE
         Scanner console = new Scanner(System.in);
 
@@ -18,6 +20,7 @@ public class Exercise18 {
         // 1. Write a loop to create a new string from a phrase by "cutting out" any characters from the start index
         // to the end index.
         // 2. Print the result.
+        System.out.println(phrase.replace(phrase.substring(start, end), ""));
 
         // Examples
         // phrase, start, end -> result
