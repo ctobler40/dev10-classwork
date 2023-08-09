@@ -1,4 +1,5 @@
-public class Exercise14 {
+public class Exercise14
+{
     /* SHORT SURVEY
 
     Write a program that asks a user four questions and prints the results:

@@ -1,19 +1,24 @@
-public class Exercise01 {
-
-    public static void main(String[] args) {
-
+public class Exercise01
+{
+    public static void main(String[] args)
+    {
         String firstCompliment = getRandomCompliment();
         System.out.println(firstCompliment);
 
         // Call the getRandomCompliment method two more times.
         // 1. Store the result in a new string variable.
         // 2. Print the result.
+        String secondCompliment = getRandomCompliment();
+        System.out.println(secondCompliment);
+
         // 3. Print the value returned directly without an intermediate variable.
+        System.out.println(getRandomCompliment());
     }
 
-    public static String getRandomCompliment() {
-
-        switch ((int) (Math.random() * 10)) {
+    public static String getRandomCompliment()
+    {
+        switch ((int) (Math.random() * 10))
+        {
             case 0:
                 return "Your hard work is inspiring.";
             case 1:

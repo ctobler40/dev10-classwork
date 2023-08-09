@@ -1,4 +1,38 @@
-public class Exercise15 {
+import java.util.Scanner;
+
+public class Exercise15
+{
+    public static void main(String [] args)
+    {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter a positive integer: ");
+        int num = scan.nextInt();
+        while (num < 0)
+        {
+            System.out.print("Enter a positive integer: ");
+            num = scan.nextInt();
+        }
+        for (int x = 0; x <= num; x ++)
+        {
+            DivisibleByFizzBuzz(x);
+        }
+    }
+
+    public static void DivisibleByFizzBuzz(int num)
+    {
+        if (num % 3 == 0 && num % 5 == 0)
+            System.out.println("Fizz Buzz");
+        else
+        {
+            if (num % 3 == 0)
+                System.out.println("Fizz");
+            else if (num % 5 == 0)
+                System.out.println("Buzz");
+            else
+                System.out.println(num);
+        }
+    }
+
     /* FIZZ BUZZ
 
     Historically, the Fizz Buzz (https://en.wikipedia.org/wiki/Fizz_buzz) problem was used in programming interviews.

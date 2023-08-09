@@ -1,19 +1,20 @@
-public class Exercise05 {
+public class Exercise05
+{
+    public static void main(String[] args)
+    {
+        // 2. Uncomment the following code to test your results.
+        System.out.println(gallonsToCups(0)); // Expected: 0
+        System.out.println(gallonsToCups(1)); // Expected: 16
+        System.out.println(gallonsToCups(2)); // Expected: 32
+    }
 
     // 1. Create a method.
     // Name: gallonsToCups
     // Inputs: int (number of gallons)
     // Output: int (number of cups)
     // Description: converts gallons to cups. (Common measure, not US legal.)
-
-    public static void main(String[] args) {
-        // 2. Uncomment the following code to test your results.
-        /*
-        System.out.println(gallonsToCups(0)); // Expected: 0
-        System.out.println(gallonsToCups(1)); // Expected: 16
-        System.out.println(gallonsToCups(2)); // Expected: 32
-        */
+    public static int gallonsToCups(int numGallons)
+    {
+        return numGallons * 16;
     }
-
-
 }

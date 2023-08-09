@@ -1,5 +1,5 @@
-public class Exercise13 {
-
+public class Exercise13
+{
     // 1. Create a method.
     // Name: areInOrder
     // Inputs: int, int, int
@@ -34,7 +34,8 @@ public class Exercise13 {
     // Hint: call areInOrder and areContiguous. Neither method can guarantee the result alone, but together they solve
     // the problem.
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         // 4. Uncomment the code below and confirm it works.
         // System.out.println(isAscendingContiguous(3, 4, 5)); // true
         // System.out.println(isAscendingContiguous(-10, 4, 100)); // false
