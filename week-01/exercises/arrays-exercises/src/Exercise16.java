@@ -1,16 +1,51 @@
+import java.util.Arrays;
 import java.util.Random;
 
-public class Exercise16 {
-
-    public static void main(String[] args) {
+public class Exercise16
+{
+    public static void main(String[] args)
+    {
         // MERGE
-        int[] one = makeRandomAscendingArray();
-        int[] two = makeRandomAscendingArray();
+        int[] one = MakeRandomAscendingArray();
+        int[] two = MakeRandomAscendingArray();
 
         // makeRandomAscendingArray creates a random array with a capacity between 50 and 150.
         // Its elements are guaranteed to be sorted ascending.
         // 1. Create a new int[] with capacity for all elements from `one` and `two`.
+        int[] fullArray = new int[one.length + two.length];
+
+
+        for (int i = 0; i < two.length; i++)
+            fullArray[one.length + i] = two[i];
+
         // 2. "Merge" elements from `one` and `two` into the new array so that its values are sorted.
+        int increment = 0;
+        if (one.length > two.length)
+        {
+            for (int i = 0; i < two.length; i++)
+            {
+                fullArray[i + increment] = one[i];
+                fullArray[i + increment + 1] = two[i];
+                increment += 1;
+            }
+            for (int  j = two.length; j < one.length; j++)
+                fullArray[j] = one[j];
+        }
+        else
+        {
+            for (int i = 0; i < one.length; i++)
+            {
+                fullArray[i + increment] = one[i];
+                fullArray[i + increment + 1] = two[i];
+                increment += 1;
+            }
+            for (int  j = one.length; j < two.length; j++)
+                fullArray[j] = two[j];
+        }
+
+        System.out.println(Arrays.toString(one));
+        System.out.println(Arrays.toString(two));
+        System.out.println(Arrays.toString(fullArray));
 
          /* Pseudocode:
          Create an integer index for `one`, `two`, and the result array, all starting at 0.
@@ -23,7 +58,8 @@ public class Exercise16 {
           */
     }
 
-    public static int[] makeRandomAscendingArray() {
+    public static int[] MakeRandomAscendingArray()
+    {
         Random random = new Random();
         int[] result = new int[random.nextInt(100) + 50];
         int current = random.nextInt(11);

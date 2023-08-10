@@ -1,10 +1,11 @@
 import java.util.Random;
 
-public class Exercise14 {
-
-    public static void main(String[] args) {
-
-        String[] emailAddresses = {
+public class Exercise14
+{
+    public static void main(String[] args)
+    {
+        String[] emailAddresses =
+        {
                 "lALVArez0@TeLEgRAPh.cO.uK",
                 "cPAyneS1@SpHinN.COm",
                 "spayLer2@google.Es",
@@ -41,12 +42,17 @@ public class Exercise14 {
 
         // The email addresses above are valid, but have inconsistent capitalization.
         // 1. Fix the capitalization. Normalize to all lowercase.
+        for (int x = 0; x < emailAddresses.length; x ++)
+        {
+            emailAddresses[x] = emailAddresses[x].toLowerCase();
+        }
 
         // The following call should print all lowercase email addresses.
         printArray(emailAddresses);
     }
 
-    public static void printArray(String[] arr) {
+    public static void printArray(String[] arr)
+    {
 
         if (arr == null) {
             return;
