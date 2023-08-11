@@ -24,7 +24,8 @@ public class Exercise08
         return sum;
     }
 
-    public static int[] MakeRandomArray() {
+    public static int[] MakeRandomArray()
+    {
         Random random = new Random();
         int[] result = new int[random.nextInt(100) + 50];
         for (int i = 0; i < result.length; i++) {
