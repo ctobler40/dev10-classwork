@@ -48,30 +48,24 @@ public class CapsuleHotel
                     break;
             }
         }
-
-        // The administrator may book a guest in an unoccupied numbered capsule.
-        // Unoccupied capsules are represented by a null array value.
-
-        // The administrator may check out a guest from an occupied capsule.
-        // Occupied capsules are represented by the occupant's name as a String.
-
-        // The administrator may view guests and their capsule numbers in groups of 11.
-        // When asking to view capsules, if # capsules < 11, then we don't bother asking for the capsule #!
     }
 
     public static void CheckIn()
     {
-
+        // The administrator may book a guest in an unoccupied numbered capsule.
+        // Unoccupied capsules are represented by a null array value.
     }
 
     public static void CheckOut()
     {
-
+        // The administrator may check out a guest from an occupied capsule.
+        // Occupied capsules are represented by the occupant's name as a String.
     }
 
     public static void ViewGuests()
     {
-
+        // The administrator may view guests and their capsule numbers in groups of 11.
+        // When asking to view capsules, if # capsules < 11, then we don't bother asking for the capsule #!
     }
 
     public static int SelectOption()
