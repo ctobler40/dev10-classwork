@@ -342,7 +342,12 @@ public class ConnectFour
                         {
                             // If at any point one of them is '_', we fill it
                             if (connectFourBoard[x][y + z] == '_')
-                                return (y + z) + 1;
+                            {
+                                // Before we make our move, we want to make sure the row won't mess up
+                                if (x != connectFourBoard.length - 1)
+                                    if (connectFourBoard[x + 1][y + z] != '_')
+                                        return (y + z) + 1;
+                            }
                         }
                     }
                 }
