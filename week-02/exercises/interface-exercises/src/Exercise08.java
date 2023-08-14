@@ -1,6 +1,7 @@
-public class Exercise08 {
-
-    public static void main(String[] args) {
+public class Exercise08
+{
+    public static void main(String[] args)
+    {
         // COMPOSITION vs. INHERITANCE
 
         /* Take a look inside the Person class.

@@ -3,32 +3,37 @@
  * Positive deposits pay down the loan.
  * Withdraws are ignored.
  */
-public class Mortgage implements MoneyStorage {
-
+public class Mortgage implements MoneyStorage
+{
     private double balance;
     private String accountNumber;
 
-    public Mortgage(double startingBalance, String accountNumber) {
+    public Mortgage(double startingBalance, String accountNumber)
+    {
         this.balance = -startingBalance;
         this.accountNumber = accountNumber;
     }
 
     @Override
-    public double getBalance() {
+    public double getBalance()
+    {
         return balance;
     }
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
         return String.format("Mortgage #%s", accountNumber);
     }
 
-    public String getAccountNumber() {
+    public String getAccountNumber()
+    {
         return accountNumber;
     }
 
     @Override
-    public boolean deposit(double amount) {
+    public boolean deposit(double amount)
+    {
         if (amount <= 0) {
             return false;
         }
@@ -37,7 +42,8 @@ public class Mortgage implements MoneyStorage {
     }
 
     @Override
-    public double withdraw(double amount) {
+    public double withdraw(double amount)
+    {
         // can't withdraw from a mortgage
         return 0;
     }

@@ -1,7 +1,8 @@
 /**
  * MoneyStorage defines a type that can store money.
  */
-public interface MoneyStorage {
+public interface MoneyStorage
+{
     /**
      * @return the current balance
      */

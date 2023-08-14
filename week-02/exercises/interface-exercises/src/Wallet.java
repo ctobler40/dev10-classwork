@@ -3,28 +3,32 @@
  * All positive deposits are allowed.
  * Withdraws are allowed up to the balance.
  */
-public class Wallet implements MoneyStorage {
-
+public class Wallet implements MoneyStorage
+{
     private double balance;
     private String description;
 
-    public Wallet(double startingBalance, String description) {
+    public Wallet(double startingBalance, String description)
+    {
         this.balance = startingBalance;
         this.description = description;
     }
 
     @Override
-    public double getBalance() {
+    public double getBalance()
+    {
         return balance;
     }
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
     @Override
-    public boolean deposit(double amount) {
+    public boolean deposit(double amount)
+    {
         if (amount > 0.0) {
             balance += amount;
             return true;
@@ -33,7 +37,8 @@ public class Wallet implements MoneyStorage {
     }
 
     @Override
-    public double withdraw(double amount) {
+    public double withdraw(double amount)
+    {
         // can't withdraw a negative amount
         if (amount <= 0.0) {
             return 0.0;
