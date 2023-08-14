@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class CapsuleHotel
 {
+    // Dev10 Week01 Assessment
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
