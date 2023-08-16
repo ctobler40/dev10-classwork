@@ -1,48 +1,58 @@
-public class Hero {
-
+public class Hero extends GamePiece
+{
     private final String name;
-    private final char symbol = '@';
-    private int x;
-    private int y;
+    private char symbol = '@';
 
     // Create a hero with a name and an initial position.
-    public Hero(String name, int x, int y) {
+    public Hero(String name, int x, int y)
+    {
+        super(x, y);
         this.name = name;
-        this.x = x;
-        this.y = y;
     }
 
     // getters
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public char getSymbol() {
+    public char getSymbol()
+    {
         return symbol;
     }
+    public void setSymbol(char symbol)
+    {
+        this.symbol = symbol;
+    }
 
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
 
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
     // movement
-    public void moveLeft() {
+    public void moveLeft()
+    {
         x--;
     }
 
-    public void moveRight() {
+    public void moveRight()
+    {
         x++;
     }
 
-    public void moveUp() {
+    public void moveUp()
+    {
         y--;
     }
 
-    public void moveDown() {
+    public void moveDown()
+    {
         y++;
     }
 }

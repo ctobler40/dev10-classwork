@@ -3,13 +3,16 @@ import learn.GameRepository;
 
 import java.util.ArrayList;
 
-public class Exercise01 {
-
-    public static void main(String[] args) {
-
+public class Exercise01
+{
+    public static void main(String[] args)
+    {
         ArrayList<BoardGame> games = GameRepository.getAll();
 
         // 1. Grab the 6th game from `games` (index 5).
+        String gameName = games.get(5).getName();
+
         // 2. Print it to stdout. (Expected: "7 Wonders")
+        System.out.println(gameName);
     }
 }
