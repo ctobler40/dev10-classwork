@@ -1,5 +1,5 @@
-public class Exercise04 {
-
+public class Exercise04
+{
     // TESTING AN INSTANCE
     // (testing non-static methods)
 
@@ -22,7 +22,21 @@ public class Exercise04 {
      * @param quantity the number of items to purchase
      * @return the total cost with volume discounts applied
      */
-    public double calculateTotalCost(double price, int quantity) {
+
+    public double calculateTotalCost(double price, int quantity)
+    {
+        if (quantity <= 15)
+            return (price * quantity);
+        else if (quantity <= 25)
+            return (price * quantity) / 1.05f;
+        else if (quantity <= 50)
+            return (price * quantity) / 1.1f;
+        else if (quantity <= 75)
+            return (price * quantity) / 1.15f;
+        else if (quantity > 75)
+            return (price * quantity) / 1.22f;
+
+        // We will then just return 0 if it is < 1
         return 0.0;
     }
 }

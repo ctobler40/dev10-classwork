@@ -2,8 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Exercise06Test {
-
+class Exercise06Test
+{
     Exercise06 instance = new Exercise06();
 
     // Suggested test additions:
@@ -13,15 +13,17 @@ class Exercise06Test {
     // shouldIgnoreEmptyElements
 
     @Test
-    void shouldCapitalizeOneElement() {
-        String[] values = {"lower"};
-        String[] expected = {"Lower"};
+    void shouldCapitalizeOneElement()
+    {
+        String[] values = {"lower and lower", "higher and higher"};
+        String[] expected = {"Lower And Lower", "Higher And Higher"};
         String[] actual = instance.capitalizeAll(values);
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    void shouldBeEmptyForEmptyArg() {
+    void shouldBeEmptyForEmptyArg()
+    {
         assertArrayEquals(new String[0], instance.capitalizeAll(new String[0]));
     }
 }

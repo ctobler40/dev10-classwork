@@ -10,12 +10,14 @@ public class Exercise01 {
     // 1. Open Exercise01Test in src/test/java and run all tests.
     // 2. Complete the add and subtract methods and make all tests pass.
 
-    static int add(int a, int b) {
-        return 0;
+    static int add(int a, int b)
+    {
+        return a + b;
     }
 
-    static int subtract(int a, int b) {
-        return 0;
+    static int subtract(int a, int b)
+    {
+        return a - b;
     }
 
     // 3. Add tests for multiply and divide in Exercise01Test.
@@ -23,11 +25,13 @@ public class Exercise01 {
     // 4. Run all tests.
     // 5. Complete the multiply and divide methods and make all tests pass.
 
-    static int multiply(int a, int b) {
-        return 0;
+    static int multiply(int a, int b)
+    {
+        return a * b;
     }
 
-    static int divide(int a, int b) {
-        return 0;
+    static int divide(int a, int b)
+    {
+        return a / b;
     }
 }

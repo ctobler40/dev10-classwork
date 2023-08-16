@@ -2,10 +2,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Exercise04Test {
-
+class Exercise04Test
+{
     @Test
-    void calculateTotalCost() {
+    void calculateTotalCost()
+    {
         Exercise04 instance = new Exercise04();
 
         // doubles are notoriously hard to test because they use floating-point rounding.

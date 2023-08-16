@@ -1,5 +1,5 @@
-public class Exercise02 {
-
+public class Exercise02
+{
     // 1. Read the surroundWithTag JavaDocs.
     // 2. Complete the surroundWithTag method. You're only allowed to confirm it's working by running
     // the accompanying test in Exercise02Test.
@@ -19,7 +19,10 @@ public class Exercise02 {
      * @param tagName the HTML tag name
      * @return string in the form: <tagName>text</tagName>
      */
-    static String surroundWithTag(String text, String tagName) {
-        return null;
+    static String surroundWithTag(String text, String tagName)
+    {
+        if (tagName == null)
+            return (text == null ? "" : text);
+        return "<" + tagName + ">" + (text == null ? "" : text) + "</" + tagName + ">";
     }
 }

@@ -1,5 +1,5 @@
-public class Exercise05 {
-
+public class Exercise05
+{
     // 1. Read the isWithinFiveOfAHundred JavaDocs.
     // 2. Implement isWithinFiveOfAHundred.
     // 3. Create tests for isWithinFiveOfAHundred and confirm that it is correct.
@@ -20,7 +20,16 @@ public class Exercise05 {
      * @param value the number to test
      * @return true if value is within 5 of a number evenly divisible by 100, false if not.
      */
-    public boolean isWithinFiveOfAHundred(int value) {
+    public boolean isWithinFiveOfAHundred(int value)
+    {
+        int newPosValue = 0, newNegValue = 0;
+        for (int x = 1; x < 6; x ++)
+        {
+            newPosValue = value + x;
+            newNegValue = value - x;
+            if (newPosValue % 100 == 0 || newNegValue % 100 == 0)
+                return true;
+        }
         return false;
     }
 }
