@@ -3,10 +3,10 @@ import learn.VehicleRepository;
 
 import java.util.HashMap;
 
-public class Exercise01 {
-
-    public static void main(String[] args) {
-
+public class Exercise01
+{
+    public static void main(String[] args)
+    {
         // `vehicleMap` is a HashMap that holds 1000 vehicles.
         // The key is the VIN (https://en.wikipedia.org/wiki/Vehicle_identification_number) as a String.
         // The value is an instance of a Vehicle.

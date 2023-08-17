@@ -14,7 +14,8 @@ class OrderTest {
     }
 
     @Test
-    void shouldAddValidItems() {
+    void shouldAddValidItems()
+    {
         LineItem grassSeed = new LineItem("Grass Seed", 19.99, 2);
         boolean result = order.add(grassSeed);
         assertTrue(result);
@@ -35,7 +36,59 @@ class OrderTest {
     }
 
     // 1. Add test shouldNotAddInvalidItems: confirm that it's not possible to add items with <= 0 quantity or < 0 price.
-    // 2. Test the order.getTotal() in various scenarios and confirm it's correct.
-    // 3. If you tackle `order.remove`, test the method thoroughly.
+    @Test
+    void shouldNotAddInvalidItems()
+    {
+        LineItem grassSeed = new LineItem("Grass Seed", 19.99, -1);
+        boolean result = order.add(grassSeed);
+        assertFalse(result);
 
+        LineItem gardenRake = new LineItem("Garden Rake", -1.99, -1);
+        result = order.add(gardenRake);
+        assertFalse(result);
+
+        LineItem hose = new LineItem("Garden Hose - 50ft", -1.99, 1);
+        result = order.add(hose);
+        assertFalse(result);
+    }
+
+    // 2. Test the order.getTotal() in various scenarios and confirm it's correct.
+    @Test
+    void getTotalForItems()
+    {
+        LineItem grassSeed = new LineItem("Grass Seed", 19.99, 5);
+        boolean result = order.add(grassSeed);
+        assertTrue(result);
+
+        LineItem gardenRake = new LineItem("Garden Rake", 21.99, 1);
+        result = order.add(gardenRake);
+        assertTrue(result);
+
+        LineItem hose = new LineItem("Garden Hose - 50ft", 35.99, 2);
+        result = order.add(hose);
+        assertTrue(result);
+
+        assertEquals(193.92, order.getTotal());
+    }
+
+    // 3. If you tackle `order.remove`, test the method thoroughly.
+    /*
+    @Test
+    void removeItemsFromList()
+    {
+        LineItem grassSeed = new LineItem("Grass Seed", 19.99, 5);
+        boolean result = order.add(grassSeed);
+        assertTrue(result);
+
+        LineItem gardenRake = new LineItem("Garden Rake", 21.99, 1);
+        result = order.add(gardenRake);
+        assertTrue(result);
+
+        LineItem hose = new LineItem("Garden Hose - 50ft", 35.99, 2);
+        result = order.add(hose);
+        assertTrue(result);
+
+        // assertEquals(193.92, order.remove(1));
+    }
+     */
 }
