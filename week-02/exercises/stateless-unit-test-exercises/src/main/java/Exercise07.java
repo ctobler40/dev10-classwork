@@ -1,5 +1,5 @@
-public class Exercise07 {
-
+public class Exercise07
+{
     // 1. Read the reverse JavaDocs.
     // 2. Implement reverse.
     // 3. Create tests for reverse and confirm that it is correct.
@@ -11,7 +11,13 @@ public class Exercise07 {
      * @param values the array to reverse
      * @return a new array with elements in reverse order.
      */
-    public String[] reverse(String[] values) {
-        return null;
+    public String[] reverse(String[] values)
+    {
+        String[] reverseValues = new String[values.length];
+        for (int x = values.length; x > 0; x --)
+        {
+            reverseValues[values.length - x] = values[x - 1];
+        }
+        return reverseValues;
     }
 }

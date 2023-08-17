@@ -15,8 +15,18 @@ class Exercise06Test
     @Test
     void shouldCapitalizeOneElement()
     {
-        String[] values = {"lower and lower", "higher and higher"};
-        String[] expected = {"Lower And Lower", "Higher And Higher"};
+        String[] values =
+        {
+            "lower and lower",
+            "higher and higher",
+            "potato"
+        };
+        String[] expected =
+        {
+            "Lower And Lower",
+            "Higher And Higher",
+            "Potato"
+        };
         String[] actual = instance.capitalizeAll(values);
         assertArrayEquals(expected, actual);
     }

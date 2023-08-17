@@ -27,6 +27,7 @@ public class Exercise06
         ArrayList<String[]> listOfLetterArrays = new ArrayList<String[]>();
         for (int i = 0; i < values.length; i++)
         {
+            // Add to the list an array of the current string split
             listOfLetterArrays.add(values[i].split(""));
 
             // Uppercase the first letter
@@ -37,9 +38,8 @@ public class Exercise06
                 if (listOfLetterArrays.get(i)[j - 1].equals(" "))
                     listOfLetterArrays.get(i)[j] = listOfLetterArrays.get(i)[j].toUpperCase();
 
-            // Now stitch the array back into one string
+            // Now stitch the array of characters back into one string
             values[i] = String.join("", listOfLetterArrays.get(i));
-            System.out.println(values[i]);
         }
         return values;
     }

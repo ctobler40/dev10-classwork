@@ -30,8 +30,43 @@ class QueenTest {
     // 1. Add tests to validate Queen movement.
     // Required tests:
     // - anything off the board is invalid, should return false and leave field values alone.
+    @Test
+    void shouldNotMoveOffBoard()
+    {
+        assertFalse(queen.move(8, 0));
+        assertFalse(queen.move(-1, 0));
+        assertFalse(queen.move(0, 8));
+        assertFalse(queen.move(0, -1));
+    }
+
     // - moving to the current location should return false and leave field values alone.
+    @Test
+    void shouldNotMoveToSameSpot()
+    {
+        assertTrue(queen.move(0, 5));
+        assertFalse(queen.move(0, 5));
+        assertTrue(queen.move(2, 7));
+        assertFalse(queen.move(2, 7));
+    }
+
     // - should still be able to move after an invalid move.
+    @Test
+    void shouldMoveAfterInvalidMove()
+    {
+        assertFalse(queen.move(8, 0));
+        assertFalse(queen.move(-1, 0));
+        assertTrue(queen.move(0, 5));
+    }
+
     // - can move diagonally in various ways
+    @Test
+    void shouldMoveDiagonally()
+    {
+        assertTrue(queen.move(5, 5));
+        assertTrue(queen.move(7, 3));
+        assertTrue(queen.move(4, 0));
+        assertTrue(queen.move(0, 4));
+    }
+
     // Always confirm that fields have been properly updated using getters.
 }

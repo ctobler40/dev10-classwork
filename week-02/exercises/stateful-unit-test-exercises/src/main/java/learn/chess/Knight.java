@@ -1,24 +1,16 @@
 package learn.chess;
 
 /**
- * The most powerful chess piece.
- * Moves horizontally, vertically, or diagonally as many spaces as she wants.
- * She tracks her current position with two integer fields: row and column.
- * Rows and columns are zero-based.
- * The queen starts at row 0 and column 0, though there is no board.
- * Row 7 - - - - - - - -
- * Row 6 - - - - - - - -
- * Row 5 - - - - - - - -
- * Row 4 - - - - - - - -
- * Row 3 - - - - - - - -
- * Row 2 - - - - - - - -
- * Row 1 - - - - - - - -
- * Row 0 Q - - - - - - -
- * Cols: 0 1 2 3 4 5 6 7
- * <p>
- * See: https://en.wikipedia.org/wiki/Queen_(chess)
+ # Exercise03
+
+ 1. Create a new class `learn.chess.Knight`.
+ 2. Model its location with integer `row` and `column` fields.
+ 3. Add getters and a `move` method. (See Exercise02.)
+ 4. Generate tests for `Knight`.
+ 5. Complete the `move` method and confirm it's correct with tests.
+ See https://en.wikipedia.org/wiki/Knight_(chess) for the Knight's movement rules.
  */
-public class Queen
+public class Knight
 {
     private int row = 0;
     private int column = 0;
@@ -58,8 +50,11 @@ public class Queen
             {
                 return false;
             }
-            // The row is the same pos, The col is the same pos, or The row and col move the same
-            if (getRow() == row || getColumn() == column || (Math.abs(getRow() - row) == Math.abs(getColumn() - column)))
+            // Return true if..
+            // abs value of row = 2 && abs value of col == 1 OR
+            // abs value of col = 2 && abs value of row == 1
+            if ((Math.abs(getRow() - row) == 2 && (Math.abs(getColumn() - column) == 1)) ||
+                (Math.abs(getRow() - row) == 1 && (Math.abs(getColumn() - column) == 2)))
             {
                 setRow(row);
                 setColumn(column);
