@@ -5,8 +5,8 @@ import learn.gomoku.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gomoku {
-
+public class Gomoku
+{
     public static final int WIDTH = 15;
 
     private final Player playerOne;
@@ -19,27 +19,35 @@ public class Gomoku {
     private Player winner;
     private boolean blacksTurn = true;
 
-    public List<Stone> getStones() {
+    // Did not use the List<Stone> from Gmoku class. Instead accessed the 2d array printed in Board class
+    // If we went this route, we could check getStones.get(index).getRow() == Player input and same for column
+    public List<Stone> getStones()
+    {
         return new ArrayList<>(stones);
     }
 
-    public boolean isOver() {
+    public boolean isOver()
+    {
         return over;
     }
 
-    public Player getCurrent() {
+    public Player getCurrent()
+    {
         return current;
     }
 
-    public Player getWinner() {
+    public Player getWinner()
+    {
         return winner;
     }
 
-    public boolean isBlacksTurn() {
+    public boolean isBlacksTurn()
+    {
         return blacksTurn;
     }
 
-    public Gomoku(Player playerOne, Player playerTwo) {
+    public Gomoku(Player playerOne, Player playerTwo)
+    {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
@@ -50,34 +58,40 @@ public class Gomoku {
         }
     }
 
-    public Result place(Stone stone) {
-
-        if (isOver()) {
+    public Result place(Stone stone)
+    {
+        if (isOver())
+        {
             return new Result("Game is over.");
         }
 
-        if (!isValid(stone)) {
+        if (!isValid(stone))
+        {
             return new Result("Stone is off the board.");
         }
 
-        if (blacksTurn != stone.isBlack()) {
+        if (blacksTurn != stone.isBlack())
+        {
             return new Result("Wrong player.");
         }
 
-        if (board[stone.getRow()][stone.getColumn()] != 0) {
+        if (board[stone.getRow()][stone.getColumn()] != 0)
+        {
             return new Result("Duplicate move.");
         }
 
         board[stone.getRow()][stone.getColumn()] = blacksTurn ? 'B' : 'W';
         stones.add(stone);
 
-        if (isWin(stone)) {
+        if (isWin(stone))
+        {
             over = true;
             winner = current;
             return new Result(current.getName() + " wins.", true);
         }
 
-        if (stones.size() == WIDTH * WIDTH) {
+        if (stones.size() == WIDTH * WIDTH)
+        {
             over = true;
             return new Result("Game ends in a draw.", true);
         }
@@ -87,17 +101,20 @@ public class Gomoku {
         return new Result(null, true);
     }
 
-    public void swap() {
+    public void swap()
+    {
         current = current == playerOne ? playerTwo : playerOne;
     }
 
-    private boolean isValid(Stone stone) {
+    private boolean isValid(Stone stone)
+    {
         return stone != null
                 && stone.getRow() >= 0 && stone.getRow() < WIDTH
                 && stone.getColumn() >= 0 && stone.getColumn() < WIDTH;
     }
 
-    private boolean isWin(Stone stone) {
+    private boolean isWin(Stone stone)
+    {
         char symbol = board[stone.getRow()][stone.getColumn()];
         return isHorizontalWin(stone.getRow(), stone.getColumn(), symbol)
                 || isVerticalWin(stone.getRow(), stone.getColumn(), symbol)
@@ -105,33 +122,38 @@ public class Gomoku {
                 || isDiagonalUpWin(stone.getRow(), stone.getColumn(), symbol);
     }
 
-    private boolean isHorizontalWin(int row, int column, char symbol) {
+    private boolean isHorizontalWin(int row, int column, char symbol)
+    {
         return count(row, column, 1, 0, symbol)
                 + count(row, column, -1, 0, symbol) == 4;
     }
 
-    private boolean isVerticalWin(int row, int column, char symbol) {
+    private boolean isVerticalWin(int row, int column, char symbol)
+    {
         return count(row, column, 0, 1, symbol)
                 + count(row, column, 0, -1, symbol) == 4;
     }
 
-    private boolean isDiagonalDownWin(int row, int column, char symbol) {
+    private boolean isDiagonalDownWin(int row, int column, char symbol)
+    {
         return count(row, column, 1, 1, symbol)
                 + count(row, column, -1, -1, symbol) == 4;
     }
 
-    private boolean isDiagonalUpWin(int row, int column, char symbol) {
+    private boolean isDiagonalUpWin(int row, int column, char symbol)
+    {
         return count(row, column, -1, 1, symbol)
                 + count(row, column, 1, -1, symbol) == 4;
     }
 
-    private int count(int row, int col, int deltaRow, int deltaCol, char symbol) {
-
+    private int count(int row, int col, int deltaRow, int deltaCol, char symbol)
+    {
         int result = 0;
         int r = row + deltaRow;
         int c = col + deltaCol;
 
-        while (r >= 0 && r < WIDTH && c >= 0 && c < WIDTH && board[r][c] == symbol) {
+        while (r >= 0 && r < WIDTH && c >= 0 && c < WIDTH && board[r][c] == symbol)
+        {
             result++;
             r += deltaRow;
             c += deltaCol;
@@ -139,5 +161,4 @@ public class Gomoku {
 
         return result;
     }
-
 }

@@ -6,21 +6,25 @@ public class Stone {
     private final int column;
     private final boolean black;
 
-    public Stone(int row, int column, boolean isBlack) {
+    public Stone(int row, int column, boolean isBlack)
+    {
         this.row = row;
         this.column = column;
         this.black = isBlack;
     }
 
-    public int getRow() {
+    public int getRow()
+    {
         return row;
     }
 
-    public int getColumn() {
+    public int getColumn()
+    {
         return column;
     }
 
-    public boolean isBlack() {
+    public boolean isBlack()
+    {
         return black;
     }
 }

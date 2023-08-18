@@ -6,8 +6,8 @@ import learn.gomoku.game.Stone;
 import java.util.List;
 import java.util.Random;
 
-public class RandomPlayer implements Player {
-
+public class RandomPlayer implements Player
+{
     private static String[] titles = {"Dr.", "Professor", "Chief Exec", "Specialist", "The Honorable",
             "Prince", "Princess", "The Venerable", "The Eminent"};
     private static String[] names = {
@@ -39,10 +39,11 @@ public class RandomPlayer implements Player {
     }
 
     @Override
-    public Stone generateMove(List<Stone> previousMoves) {
-
+    public Stone generateMove(List<Stone> previousMoves)
+    {
         boolean isBlack = true;
-        if (previousMoves != null && !previousMoves.isEmpty()) {
+        if (previousMoves != null && !previousMoves.isEmpty())
+        {
             Stone lastMove = previousMoves.get(previousMoves.size() - 1);
             isBlack = !lastMove.isBlack();
         }

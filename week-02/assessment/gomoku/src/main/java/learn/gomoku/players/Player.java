@@ -4,8 +4,8 @@ import learn.gomoku.game.Stone;
 
 import java.util.List;
 
-public interface Player {
-
+public interface Player
+{
     String getName();
 
     Stone generateMove(List<Stone> previousMoves);
