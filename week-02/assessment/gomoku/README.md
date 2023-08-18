@@ -1,4 +1,7 @@
 # Dev10 Gomoku Outline
+***CJ Tobler***
+***M02 Assessment***
+***08-18-2023***
 
 4 Game Classes
 - ***Board***: Prints out and updates the board with all the information after a move is played
