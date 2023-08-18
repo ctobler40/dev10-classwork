@@ -2,6 +2,8 @@ package learn.gomoku.game;
 
 public class Board
 {
+    // Additional Class: Board
+    // For displaying the board to the player
     private final int PRINTWIDTH = 16;
     private String[][] printBoard = new String[PRINTWIDTH][PRINTWIDTH];
 
