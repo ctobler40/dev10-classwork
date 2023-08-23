@@ -1,0 +1,4 @@
+id,title,minimumPlayer,maximumPlayers,retailReleaseDate,rating,inCollection,availability
+1,Lunar Rush,1,4,2023/10/20,8.5,true,UPCOMING
+2,Ascension,1,4,2010/05/14,7.0,false,AVAILABLE_IN_RETAIL
+3,Carcassonne,2,5,2000/12/31,7.4,true,OUT_OF_PRINT
