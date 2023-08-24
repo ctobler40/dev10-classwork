@@ -54,4 +54,32 @@ class EncounterFileRepositoryTest {
         assertEquals(4, actual.getEncounterId());
     }
 
+    @Test
+    void shouldFindByType() throws DataAccessException
+    {
+        // This would work since we are accessing the first index
+        Encounter test = new Encounter(1,EncounterType.UFO,"2020-01-01","short test #1",1);
+        List<Encounter> actual = repository.findByType(EncounterType.UFO);
+        assertEquals(test, actual.get(0));
+
+        // This would not work since there are < 1 instances of this test
+        // assertEquals(test, actual.get(1));
+    }
+
+    @Test
+    void shouldUpdate() throws DataAccessException
+    {
+        // Needs work
+        Encounter test = new Encounter(1,EncounterType.SOUND,"2020-01-01","short test #1",1);
+        assertTrue(repository.update(test));
+        assertEquals(test, repository.findByType(EncounterType.SOUND).get(0));
+    }
+
+    @Test
+    void shouldDeleteById() throws DataAccessException
+    {
+        assertTrue(repository.deleteById(2));
+        assertTrue(repository.deleteById(1));
+        assertFalse(repository.deleteById(1));
+    }
 }

@@ -6,6 +6,8 @@ import learn.unexplained.models.Encounter;
 import learn.unexplained.models.EncounterType;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EncounterServiceTest {
@@ -68,6 +70,24 @@ class EncounterServiceTest {
 
         EncounterResult actual = service.add(encounter);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldFindByType() throws DataAccessException
+    {
+        // Needs Work
+    }
+
+    @Test
+    void shouldUpdate() throws DataAccessException
+    {
+        // Needs Work
+    }
+
+    @Test
+    void shouldDeleteById() throws DataAccessException
+    {
+        // Needs Work
     }
 
     private EncounterResult makeResult(String message) {

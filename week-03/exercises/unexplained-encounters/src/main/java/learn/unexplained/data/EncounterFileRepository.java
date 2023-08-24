@@ -112,4 +112,45 @@ public class EncounterFileRepository implements EncounterRepository {
         return value.replace(DELIMITER_REPLACEMENT, DELIMITER);
     }
 
+    // Add two new methods.
+    // Name: findByType
+    // Inputs: EncounterType
+    // Output: List<Encounter>
+    // Description: Returns all encounters with a given type as a list.
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException
+    {
+        List<Encounter> encounters = findAll();
+
+        for (int x = 0; x < encounters.size(); x ++)
+        {
+            Encounter encounter = encounters.get(x);
+            if (encounter.getType() != type)
+                encounters.remove(x);
+        }
+        if (!encounters.isEmpty())
+            return encounters;
+
+        return null;
+    }
+
+    // Name: update
+    // Inputs: Encounter
+    // Output: boolean
+    // Description: Updates an existing encounter if it exists and returns true. If it doesn't exist, returns false.
+    public boolean update(Encounter encounter) throws DataAccessException
+    {
+        List<Encounter> encounters = findAll();
+        for (int i = 0; i < encounters.size(); i++)
+        {
+            if (encounters.get(i).getEncounterId() == encounter.getEncounterId())
+            {
+                encounters.set(i, encounter);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Since EncounterFileRepository implements EncounterRepository, the method contracts must also be added to the interface.
+
 }
