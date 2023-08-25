@@ -43,9 +43,38 @@ public class SolarPanelService {
         return result;
     }
 
-    // TODO: add an update method
+    // TODO: Add an update method. Currently not updating row and col
+    public SolarPanelResult update(SolarPanel solarPanel) throws DataAccessException
+    {
+        SolarPanelResult result = validate(solarPanel);
+        if (!result.isSuccess()) {
+            return result;
+        }
 
-    // TODO: add a delete method (possibly deleteById?)
+        if (solarPanel.getId() <= 0) {
+            result.addErrorMessage("solar panel id is required");
+            return result;
+        }
+
+        boolean success = repository.update(solarPanel);
+        if (!success) {
+            result.addErrorMessage("could not update solar panel id " + solarPanel.getId());
+        }
+
+        return result;
+    }
+
+    // Add a delete method (possibly deleteById?)
+    public SolarPanelResult deleteById(int solarPanelId) throws DataAccessException
+    {
+        SolarPanelResult result = new SolarPanelResult();
+        boolean success = repository.deleteById(solarPanelId);
+        if (!success)
+        {
+            result.addErrorMessage("could not delete solar panel id " + solarPanelId);
+        }
+        return result;
+    }
 
     private SolarPanelResult validate(SolarPanel solarPanel) throws DataAccessException {
         SolarPanelResult result = new SolarPanelResult();

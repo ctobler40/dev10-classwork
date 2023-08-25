@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class SolarPanelFileRepositoryTest {
     static final String SEED_FILE_PATH = "./data/solarfarm-seed.txt";
@@ -109,13 +109,20 @@ class SolarPanelFileRepositoryTest {
         assertEquals(expected, actual);
     }
 
+    // TODO: Add test for update
     @Test
-    void update() throws DataAccessException {
-        // TODO: complete
+    void shouldUpdateSolarPanel() throws DataAccessException
+    {
+        SolarPanel solarPanel = new SolarPanel(1, "BigBoy", 1, 2, 2021, Material.POLY_SI, false);
+        assertTrue(repository.update(solarPanel));
+        assertEquals(solarPanel, repository.findByKey("BigBoy", 1, 2));
     }
 
+    // TODO: Add test for delete
     @Test
-    void deleteById() throws DataAccessException {
-        // TODO: complete
+    void shouldDeleteSolarPanelById() throws DataAccessException
+    {
+        assertTrue(repository.deleteById(1));
+        assertFalse(repository.deleteById(1));
     }
 }

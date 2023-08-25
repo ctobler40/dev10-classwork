@@ -6,7 +6,10 @@ import learn.solarfarm.models.SolarPanel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolarPanelRepositoryDouble implements SolarPanelRepository {
+import static learn.solarfarm.TestHelper.VALID_ID;
+
+public class SolarPanelRepositoryDouble implements SolarPanelRepository
+{
     private final ArrayList<SolarPanel> solarPanels = new ArrayList<>();
 
     public SolarPanelRepositoryDouble() {
@@ -41,7 +44,18 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository {
         return solarPanel;
     }
 
+
     // TODO: add an update method (must match with interface)
+    @Override
+    public boolean update(SolarPanel solarPanel) throws DataAccessException
+    {
+        return solarPanel.getId() == VALID_ID;
+    }
 
     // TODO: add a delete method (must match with interface)
+    @Override
+    public boolean deleteById(int id) throws DataAccessException
+    {
+        return id == VALID_ID;
+    }
 }

@@ -1,6 +1,7 @@
 package learn.solarfarm.ui;
 
 import learn.solarfarm.data.DataAccessException;
+import learn.solarfarm.data.SolarPanelFileRepository;
 import learn.solarfarm.domain.SolarPanelResult;
 import learn.solarfarm.domain.SolarPanelService;
 import learn.solarfarm.models.SolarPanel;
@@ -42,8 +43,8 @@ public class Controller {
                     updateSolarPanel();
                     break;
                 case 4:
-                    // TODO: complete delete
-                    System.out.println("NOT IMPLEMENTED");
+                    // TODO: complete delete! This is probably incorrect
+                    deleteSolarPanelById(0);
                     break;
             }
         }
@@ -70,11 +71,24 @@ public class Controller {
         }
     }
 
-    private void updateSolarPanel() throws DataAccessException {
+    private void updateSolarPanel() throws DataAccessException
+    {
         view.displayHeader("Update a Panel");
-        // TODO: grab the section, row, and column from the view.
-        // TODO: use the service to fetch a solar panel by its key (section, row, column).
-        // TODO: complete update
+        // Grab the section, row, and column from the view.
+        String section = view.getSection();
+        int row = view.getRow();
+        int column = view.getColumn();
+
+        // Use the service to fetch a solar panel by its key (section, row, column).
+        SolarPanel solarPanel = service.findByKey(section, row, column);
+
+        // Complete update
+        service.update(solarPanel);
     }
 
+    private void deleteSolarPanelById(int id) throws DataAccessException
+    {
+        // TODO: Watch how it is done in class!
+        service.deleteById(id);
+    }
 }

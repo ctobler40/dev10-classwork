@@ -11,7 +11,9 @@ public interface SolarPanelRepository {
 
     SolarPanel create(SolarPanel solarPanel) throws DataAccessException;
 
-    // TODO: add an update method
+    // Add an update method
+    boolean update(SolarPanel solarPanel) throws DataAccessException;
 
-    // TODO: add a delete method
+    // Add a delete method
+    boolean deleteById(int id) throws DataAccessException;
 }
