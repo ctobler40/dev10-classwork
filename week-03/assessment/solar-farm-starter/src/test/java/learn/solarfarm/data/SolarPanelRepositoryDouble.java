@@ -1,11 +1,8 @@
 package learn.solarfarm.data;
-
 import learn.solarfarm.models.Material;
 import learn.solarfarm.models.SolarPanel;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static learn.solarfarm.TestHelper.VALID_ID;
 
 public class SolarPanelRepositoryDouble implements SolarPanelRepository
@@ -54,8 +51,7 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
 
     // TODO: add a delete method (must match with interface)
     @Override
-    public boolean deleteById(int id) throws DataAccessException
-    {
-        return id == VALID_ID;
+    public boolean deleteByKey(SolarPanel solarPanel) throws DataAccessException {
+        return solarPanel.getId() == VALID_ID;
     }
 }

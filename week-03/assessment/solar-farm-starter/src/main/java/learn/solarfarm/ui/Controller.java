@@ -44,7 +44,7 @@ public class Controller {
                     break;
                 case 4:
                     // TODO: complete delete! This is probably incorrect
-                    deleteSolarPanelById(0);
+                    deleteSolarPanelByKey();
                     break;
             }
         }
@@ -78,17 +78,18 @@ public class Controller {
         String section = view.getSection();
         int row = view.getRow();
         int column = view.getColumn();
-
         // Use the service to fetch a solar panel by its key (section, row, column).
         SolarPanel solarPanel = service.findByKey(section, row, column);
-
         // Complete update
         service.update(solarPanel);
     }
 
-    private void deleteSolarPanelById(int id) throws DataAccessException
+    private void deleteSolarPanelByKey() throws DataAccessException
     {
-        // TODO: Watch how it is done in class!
-        service.deleteById(id);
+        // TODO: Complete!
+        ConsoleIO console = new ConsoleIO();
+        // Complete delete
+        service.deleteByKey(console.readString("Section"), console.readInt("Row", 0, 100),
+                console.readInt("Column", 0, 100));
     }
 }

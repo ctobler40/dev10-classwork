@@ -15,5 +15,5 @@ public interface SolarPanelRepository {
     boolean update(SolarPanel solarPanel) throws DataAccessException;
 
     // Add a delete method
-    boolean deleteById(int id) throws DataAccessException;
+    boolean deleteByKey(SolarPanel solarPanel) throws DataAccessException;
 }

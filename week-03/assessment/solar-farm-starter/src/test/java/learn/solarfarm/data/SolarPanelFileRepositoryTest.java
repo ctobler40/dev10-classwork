@@ -120,9 +120,11 @@ class SolarPanelFileRepositoryTest {
 
     // TODO: Add test for delete
     @Test
-    void shouldDeleteSolarPanelById() throws DataAccessException
+    void shouldDeleteSolarPanelByKey() throws DataAccessException
     {
-        assertTrue(repository.deleteById(1));
-        assertFalse(repository.deleteById(1));
+        SolarPanel solarPanel = new SolarPanel(10, "Buick", 1, 1, 2021, Material.CIGS, false);
+        repository.create(solarPanel);
+        assertTrue(repository.deleteByKey(solarPanel));
+        assertFalse(repository.deleteByKey(solarPanel));
     }
 }

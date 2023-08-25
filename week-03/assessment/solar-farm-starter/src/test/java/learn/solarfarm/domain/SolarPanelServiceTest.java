@@ -239,9 +239,10 @@ class SolarPanelServiceTest {
     @Test
     void shouldNotUpdateEmptySection() throws DataAccessException
     {
-       // TODO: complete
-        SolarPanelResult expected = makeResult("could not update solar panel id ", null);
-        SolarPanel arg = new SolarPanel();
+        // TODO: complete
+        SolarPanelResult expected = makeResult("availability is required", null);
+        SolarPanel arg = makeSolarPanel(VALID_ID);
+        arg.setSection(null);
         SolarPanelResult actual = service.update(arg);
         assertEquals(expected, actual);
     }
@@ -250,8 +251,9 @@ class SolarPanelServiceTest {
     void shouldNotUpdateNonPositiveId() throws DataAccessException
     {
         // TODO: complete
-        SolarPanelResult expected = makeResult("solar panel id is required", null);
-        SolarPanel arg = makeSolarPanel(3);
+        SolarPanelResult expected = makeResult("game id is required", null);
+        SolarPanel arg = makeSolarPanel(VALID_ID);
+        arg.setId(0);
         SolarPanelResult actual = service.update(arg);
         assertEquals(expected, actual);
     }
@@ -281,7 +283,7 @@ class SolarPanelServiceTest {
     {
         // TODO: complete
         SolarPanelResult expected = makeResult("could not delete solar panel id 3", null);
-        SolarPanelResult actual = service.deleteById(3);
+        SolarPanelResult actual = service.deleteByKey("Flats", 1, 1);
         assertEquals(expected, actual);
     }
 
@@ -290,7 +292,7 @@ class SolarPanelServiceTest {
     {
         // TODO: complete
         SolarPanelResult expected = makeResult(null, null);
-        SolarPanelResult actual = service.deleteById(VALID_ID);
+        SolarPanelResult actual = service.deleteByKey("Section", 1, 1);
         assertEquals(expected, actual);
     }
 }
