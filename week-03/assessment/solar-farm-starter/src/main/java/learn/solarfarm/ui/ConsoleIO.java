@@ -45,7 +45,7 @@ public class ConsoleIO implements TextIO {
     @Override
     public boolean readBoolean(String prompt) {
         String result = readString(prompt);
-        SolarPanelService.blankInput = result.equalsIgnoreCase("");
+        View.blankInput = result.equalsIgnoreCase("");
         return result.equalsIgnoreCase("y");
     }
 

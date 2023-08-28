@@ -8,6 +8,7 @@ public interface SolarPanelRepository {
     List<SolarPanel> findBySection(String section) throws DataAccessException;
 
     SolarPanel findByKey(String section, int row, int column) throws DataAccessException;
+    List<SolarPanel> findAll() throws DataAccessException;
 
     SolarPanel create(SolarPanel solarPanel) throws DataAccessException;
 

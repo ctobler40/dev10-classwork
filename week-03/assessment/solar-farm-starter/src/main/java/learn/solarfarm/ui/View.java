@@ -8,6 +8,7 @@ import java.util.List;
 
 public class View {
     private final TextIO io;
+    public static boolean blankInput = false;
 
     public View(TextIO io) {
         this.io = io;
@@ -70,7 +71,8 @@ public class View {
         displayMessage(String.format(format, args));
     }
 
-    public SolarPanel addSolarPanel() {
+    public SolarPanel addSolarPanel()
+    {
         displayHeader("Add a Panel");
         io.println("");
 
@@ -83,5 +85,73 @@ public class View {
         result.setTracking(io.readBoolean("Tracked [y/n]"));
 
         return result;
+    }
+
+    public SolarPanel updateSolarPanel(SolarPanel solarPanel)
+    {
+        io.println("");
+        displayHeader("Updating Solar Panel " + solarPanel.getKey());
+        io.println("");
+
+        SolarPanel newSolarPanel = new SolarPanel(
+            solarPanel.getId(),   // Keep it's id
+            io.readString("Section (" + solarPanel.getSection() + ")"),
+            io.readInt("Row (" + solarPanel.getRow() + ")", 0, 100),
+            io.readInt("Column (" + solarPanel.getColumn() + ")", 0, 100),
+            io.readInt("Installation Year (" + solarPanel.getYearInstalled() + ")", 1900, 2023),
+            getMaterialFromInput(solarPanel),
+            io.readBoolean("Tracked (" + (solarPanel.isTracking() ? "yes" : "no") + ") [y/n]")
+        );
+        solarPanel = setNewSolarPanelValues(newSolarPanel, solarPanel);
+        return solarPanel;
+    }
+
+    public SolarPanel selectSolarPanel(List<SolarPanel> all, SolarPanel selectedSolarPanel)
+    {
+        for (SolarPanel solarPanel : all)
+        {
+            if (solarPanel.isMatch(selectedSolarPanel))
+            {
+                selectedSolarPanel = solarPanel;
+                break;
+            }
+        }
+
+        if (selectedSolarPanel == null) {
+            displayMessage("Solar Panel is not found.");
+        }
+
+        return selectedSolarPanel;
+    }
+
+    public SolarPanel setNewSolarPanelValues(SolarPanel newSolarPanel, SolarPanel solarPanel)
+    {
+        if (newSolarPanel.getSection().equalsIgnoreCase(""))
+            newSolarPanel.setSection(solarPanel.getSection());
+        if (newSolarPanel.getRow() == -1)
+            newSolarPanel.setRow(solarPanel.getRow());
+        if (newSolarPanel.getColumn() == -1)
+            newSolarPanel.setColumn(solarPanel.getColumn());
+        if (newSolarPanel.getYearInstalled() == -1)
+            newSolarPanel.setYearInstalled(solarPanel.getYearInstalled());
+        if (newSolarPanel.getMaterial() == Material.NO_MATERIAL)
+            newSolarPanel.setMaterial(solarPanel.getMaterial());
+        if (blankInput)
+            newSolarPanel.setTracking(solarPanel.isTracking());
+        return newSolarPanel;
+    }
+
+    public Material getMaterialFromInput(SolarPanel solarPanel)
+    {
+        Material material = Material.NO_MATERIAL;
+        try
+        {
+            material = Material.valueOf(io.readString("Material (" + solarPanel.getMaterial() + ")"));
+        }
+        catch (IllegalArgumentException ex)
+        {
+            // Nothing
+        }
+        return material;
     }
 }

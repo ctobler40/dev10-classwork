@@ -37,6 +37,11 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
     }
 
     @Override
+    public List<SolarPanel> findAll() throws DataAccessException {
+        return solarPanels;
+    }
+
+    @Override
     public SolarPanel create(SolarPanel solarPanel) throws DataAccessException {
         return solarPanel;
     }

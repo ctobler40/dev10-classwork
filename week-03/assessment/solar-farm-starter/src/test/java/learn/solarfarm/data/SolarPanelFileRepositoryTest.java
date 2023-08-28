@@ -116,6 +116,14 @@ class SolarPanelFileRepositoryTest {
         SolarPanel solarPanel = new SolarPanel(1, "BigBoy", 1, 2, 2021, Material.POLY_SI, false);
         assertTrue(repository.update(solarPanel));
         assertEquals(solarPanel, repository.findByKey("BigBoy", 1, 2));
+
+        SolarPanel solarPanel2 = new SolarPanel(1, "BigBoy", 1, 2, 2011, Material.CD_TE, true);
+        assertTrue(repository.update(solarPanel2));
+        assertEquals(solarPanel2, repository.findByKey("BigBoy", 1, 2));
+
+        SolarPanel solarPanel3 = new SolarPanel(1, "BigBoy", 2, 2, 2002, Material.A_SI, false);
+        assertTrue(repository.update(solarPanel3));
+        assertEquals(solarPanel3, repository.findByKey("BigBoy", 2, 2));
     }
 
     // TODO: Add test for delete
@@ -126,5 +134,10 @@ class SolarPanelFileRepositoryTest {
         repository.create(solarPanel);
         assertTrue(repository.deleteByKey(solarPanel));
         assertFalse(repository.deleteByKey(solarPanel));
+
+        repository.create(solarPanel);
+        SolarPanel solarPanel2 = new SolarPanel(7, "Trevor", 3, 1, 2018, Material.CD_TE, true);
+        assertFalse(repository.deleteByKey(solarPanel2));
+        assertTrue(repository.deleteByKey(solarPanel));
     }
 }

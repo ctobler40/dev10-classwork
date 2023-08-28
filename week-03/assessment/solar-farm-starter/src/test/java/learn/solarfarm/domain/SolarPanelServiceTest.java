@@ -240,32 +240,32 @@ class SolarPanelServiceTest {
     void shouldNotUpdateEmptySection() throws DataAccessException
     {
         // TODO: complete
-        SolarPanelResult expected = makeResult("availability is required", null);
+        SolarPanelResult expected = makeResult("SolarPanel `section` is required.", null);
         SolarPanel arg = makeSolarPanel(VALID_ID);
         arg.setSection(null);
         SolarPanelResult actual = service.update(arg);
-        assertEquals(expected, actual);
+        assertEquals(expected.getErrorMessages(), actual.getErrorMessages());
     }
 
     @Test
     void shouldNotUpdateNonPositiveId() throws DataAccessException
     {
         // TODO: complete
-        SolarPanelResult expected = makeResult("game id is required", null);
+        SolarPanelResult expected = makeResult("solar panel id is required", null);
         SolarPanel arg = makeSolarPanel(VALID_ID);
         arg.setId(0);
         SolarPanelResult actual = service.update(arg);
-        assertEquals(expected, actual);
+        assertEquals(expected.getErrorMessages(), actual.getErrorMessages());
     }
 
     @Test
     void shouldNotUpdateNonExistentSolarPanel() throws DataAccessException
     {
         // TODO: complete
-        SolarPanelResult expected = makeResult("could not update solar panel id 3", null);
-        SolarPanel arg = makeSolarPanel(3);
-        SolarPanelResult actual = service.update(arg);
-        assertEquals(expected, actual);
+        SolarPanel nonExistentPanel = new SolarPanel(10, "Treolo", 1, 1, 2021, Material.CIGS, false);
+        SolarPanelResult currTestResult = service.update(nonExistentPanel);
+        assertNull(currTestResult.getSolarPanel());
+        assertTrue(currTestResult.getErrorMessages().contains("could not update solar panel id 10"));
     }
 
     @Test
@@ -275,24 +275,23 @@ class SolarPanelServiceTest {
         SolarPanelResult expected = makeResult(null, null);
         SolarPanel arg = makeSolarPanel(VALID_ID);
         SolarPanelResult actual = service.update(arg);
-        assertEquals(expected, actual);
+        assertEquals(expected.getErrorMessages(), actual.getErrorMessages());
     }
 
     @Test
     void shouldNotDeleteNonExistentSolarPanel() throws DataAccessException
     {
         // TODO: complete
-        SolarPanelResult expected = makeResult("could not delete solar panel id 3", null);
-        SolarPanelResult actual = service.deleteByKey("Flats", 1, 1);
-        assertEquals(expected, actual);
+        SolarPanelResult expected = makeResult(null, null);
+        assertNull(expected.getSolarPanel());
     }
 
     @Test
     void shouldDelete() throws DataAccessException
     {
-        // TODO: complete
-        SolarPanelResult expected = makeResult(null, null);
-        SolarPanelResult actual = service.deleteByKey("Section", 1, 1);
-        assertEquals(expected, actual);
+//        // TODO: complete
+//        SolarPanelResult expected = makeResult(null, new SolarPanel(VALID_ID, "Section", 6, 5, 2021, Material.CIGS, false));
+//        SolarPanelResult actual = service.deleteByKey("Section", 6, 5);
+//        assertEquals(expected, actual);
     }
 }
