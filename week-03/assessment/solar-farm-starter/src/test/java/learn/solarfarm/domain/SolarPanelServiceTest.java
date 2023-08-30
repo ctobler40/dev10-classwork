@@ -289,9 +289,11 @@ class SolarPanelServiceTest {
     @Test
     void shouldDelete() throws DataAccessException
     {
-//        // TODO: complete
-//        SolarPanelResult expected = makeResult(null, new SolarPanel(VALID_ID, "Section", 6, 5, 2021, Material.CIGS, false));
-//        SolarPanelResult actual = service.deleteByKey("Section", 6, 5);
-//        assertEquals(expected, actual);
+        // TODO: complete
+        SolarPanel newPanel = new SolarPanel(VALID_ID, "Section", 6, 5, 2021, Material.CIGS, false);
+        service.create(newPanel);
+        SolarPanelResult expected = makeResult(null, null);
+        SolarPanelResult actual = service.deleteByKey("Section", 6, 5);
+        assertEquals(expected.getSolarPanel(), actual.getSolarPanel());
     }
 }

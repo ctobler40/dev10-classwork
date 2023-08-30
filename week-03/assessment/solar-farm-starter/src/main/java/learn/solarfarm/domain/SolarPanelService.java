@@ -78,6 +78,7 @@ public class SolarPanelService {
         try
         {
             solarPanel = findByKey(section, row, column);
+            solarPanel.setId(solarPanel.getId());
         }
         catch(Exception e)
         {
@@ -86,7 +87,7 @@ public class SolarPanelService {
         }
         boolean success = repository.deleteByKey(solarPanel);
         if (!success)
-            result.addErrorMessage("could not delete solar panel id " + solarPanel.getId());
+            result.addErrorMessage("could not delete solar panel because solar panel is null");
         else
             result.addErrorMessage("\n[Success]\nPanel " + solarPanel.getKey() + " removed.");
         return result;
