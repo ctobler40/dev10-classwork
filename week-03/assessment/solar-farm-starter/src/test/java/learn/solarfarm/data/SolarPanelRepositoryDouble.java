@@ -1,11 +1,8 @@
 package learn.solarfarm.data;
-
 import learn.solarfarm.models.Material;
 import learn.solarfarm.models.SolarPanel;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static learn.solarfarm.TestHelper.VALID_ID;
 
 public class SolarPanelRepositoryDouble implements SolarPanelRepository
@@ -40,6 +37,11 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
     }
 
     @Override
+    public List<SolarPanel> findAll() throws DataAccessException {
+        return solarPanels;
+    }
+
+    @Override
     public SolarPanel create(SolarPanel solarPanel) throws DataAccessException {
         return solarPanel;
     }
@@ -47,15 +49,13 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
 
     // TODO: add an update method (must match with interface)
     @Override
-    public boolean update(SolarPanel solarPanel) throws DataAccessException
-    {
+    public boolean update(SolarPanel solarPanel) throws DataAccessException {
         return solarPanel.getId() == VALID_ID;
     }
 
     // TODO: add a delete method (must match with interface)
     @Override
-    public boolean deleteById(int id) throws DataAccessException
-    {
-        return id == VALID_ID;
+    public boolean deleteByKey(SolarPanel solarPanel) throws DataAccessException {
+        return solarPanel.getId() == VALID_ID;
     }
 }
