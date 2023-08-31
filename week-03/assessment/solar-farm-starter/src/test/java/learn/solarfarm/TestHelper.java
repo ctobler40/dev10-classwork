@@ -6,7 +6,7 @@ import learn.solarfarm.models.SolarPanel;
 
 public class TestHelper
 {
-    public static final int VALID_ID = 1;
+    public static final int VALID_ID = 5;
 
     public static SolarPanel makeSolarPanel(int id)
     {
