@@ -74,22 +74,15 @@ public class SolarPanelService {
     public SolarPanelResult deleteByKey(String section, int row, int column) throws DataAccessException
     {
         SolarPanelResult result = new SolarPanelResult();
-        SolarPanel solarPanel = null;
-        try
+        SolarPanel solarPanel = findByKey(section, row, column);
+        boolean success = false;
+        if (solarPanel != null)
         {
-            solarPanel = findByKey(section, row, column);
             solarPanel.setId(solarPanel.getId());
+            success = repository.deleteByKey(solarPanel);
         }
-        catch(Exception e)
-        {
-            result.addErrorMessage("\n[Err]\nThere is no panel " + section + "-" + row + "-" + column + ".");
-            return result;
-        }
-        boolean success = repository.deleteByKey(solarPanel);
         if (!success)
-            result.addErrorMessage("could not delete solar panel because solar panel is null");
-        else
-            result.addErrorMessage("\n[Success]\nPanel " + solarPanel.getKey() + " removed.");
+            result.addErrorMessage("\n[Err]\nThere is no panel " + section + "-" + row + "-" + column + ".");
         return result;
     }
 

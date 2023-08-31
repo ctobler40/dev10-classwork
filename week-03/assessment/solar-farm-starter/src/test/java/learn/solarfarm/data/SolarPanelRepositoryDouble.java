@@ -49,8 +49,7 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
 
     // TODO: add an update method (must match with interface)
     @Override
-    public boolean update(SolarPanel solarPanel) throws DataAccessException
-    {
+    public boolean update(SolarPanel solarPanel) throws DataAccessException {
         return solarPanel.getId() == VALID_ID;
     }
 

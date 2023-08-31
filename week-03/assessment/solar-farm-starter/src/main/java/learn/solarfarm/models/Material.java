@@ -8,8 +8,7 @@ public enum Material {
     MONO_SI("Monocrystalline Silicon"),
     A_SI("Amorphous Silicon"),
     CD_TE("Cadmium Telluride"),
-    CIGS("Copper Indium Gallium Selenide"),
-    NO_MATERIAL("");
+    CIGS("Copper Indium Gallium Selenide");
 
 
     private final String name;

@@ -112,19 +112,11 @@ public class Controller {
         {
             SolarPanelResult result = service.deleteByKey(solarPanel.getSection(), solarPanel.getRow(), solarPanel.getColumn());
             if (result.isSuccess())
-                view.displayMessage("[Success]\n Solar Panel " + solarPanel.getKey() + " successfully deleted.");
+                view.displayMessage("[Success]\nSolar Panel " + solarPanel.getKey() + " removed.");
+            else
+                view.displayMessage(result.getErrorMessages().get(0));
         }
         else
             view.displayMessage("[Err]\nSolar Panel " + section + "-" + row + "-" + column + " not found.");
-    }
-
-    public static void debugPrintOut(SolarPanel sp)
-    {
-        System.out.println(sp.getSection() + ", " +
-                            sp.getRow() + ", " +
-                            sp.getColumn() + ", " +
-                            sp.getYearInstalled() + ", " +
-                            sp.getMaterial() + ", " +
-                            sp.isTracking());
     }
 }

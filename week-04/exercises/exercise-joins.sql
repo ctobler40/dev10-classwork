@@ -196,7 +196,11 @@ order by c.first_name asc;
 -- List category with its parent category, but make the parent category
 -- optional to include categories without a parent.
 -- Expected: 8 Rows
-select * from category;   -- ?
+select 
+	c.name,
+    ifnull(p.name, "N/A")   -- This is how to implement ifnull!
+from category c
+left outer join category p on p.category_id = c.parent_category_id;
 
 -- Write an "everything" query:
 -- customer_id and names from customer
@@ -232,10 +236,17 @@ order by p.`description` desc, i.name desc, pi.quantity desc;
 -- Expected: 48 Rows, 3 projects that Fleur worked on.
 select
 	concat(c.first_name, " ", c.last_name) as 'Customers in Postal Code M3H',
-    (e.first_name = 'Fleur' and e.last_name = 'Soyle') as 'Worked with Fleur Soyle'
+    ifnull((e.first_name = 'Fleur' and e.last_name = 'Soyle'), "No") as 'Worked with Fleur Soyle'
 from customer c
-inner join project p on c.customer_id = p.customer_id
-inner join project_employee pe on p.project_id = pe.project_id
-inner join employee e on pe.employee_id = e.employee_id
+left outer join project p on c.customer_id = p.customer_id
+left outer join project_employee pe on p.project_id = pe.project_id and 
+	-- Key part: Nested select ***
+	pe.employee_id = (select 
+						employee_id from employee 
+                        where first_name = 'Fleur' and last_name = 'Soyle'
+					    )
+left outer join employee e on pe.employee_id = e.employee_id
 where c.postal_code = 'M3H'
 order by (e.first_name = 'Fleur' and e.last_name = 'Soyle') desc;
+
+select * from customer;

@@ -108,6 +108,9 @@ public class View {
 
     public SolarPanel selectSolarPanel(List<SolarPanel> all, SolarPanel selectedSolarPanel)
     {
+        if (selectedSolarPanel == null)
+            return null;
+
         for (SolarPanel solarPanel : all)
         {
             if (solarPanel.isMatch(selectedSolarPanel))
@@ -115,10 +118,6 @@ public class View {
                 selectedSolarPanel = solarPanel;
                 break;
             }
-        }
-
-        if (selectedSolarPanel == null) {
-            displayMessage("Solar Panel is not found.");
         }
 
         return selectedSolarPanel;
@@ -134,7 +133,7 @@ public class View {
             newSolarPanel.setColumn(solarPanel.getColumn());
         if (newSolarPanel.getYearInstalled() == -1)
             newSolarPanel.setYearInstalled(solarPanel.getYearInstalled());
-        if (newSolarPanel.getMaterial() == Material.NO_MATERIAL)
+        if (newSolarPanel.getMaterial() == solarPanel.getMaterial())
             newSolarPanel.setMaterial(solarPanel.getMaterial());
         if (blankInput)
             newSolarPanel.setTracking(solarPanel.isTracking());
@@ -143,7 +142,7 @@ public class View {
 
     public Material getMaterialFromInput(SolarPanel solarPanel)
     {
-        Material material = Material.NO_MATERIAL;
+        Material material = solarPanel.getMaterial();
         try
         {
             material = Material.valueOf(io.readString("Material (" + solarPanel.getMaterial() + ")"));
