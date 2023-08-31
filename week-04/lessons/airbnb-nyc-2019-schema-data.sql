@@ -1,12 +1,9 @@
--- Get rid of the airbnb_nyc database if there exists one already
 drop database if exists airbnb_nyc;
--- Now create the new airbnb-nyc database
+
 create database airbnb_nyc;
 
 use airbnb_nyc;
 
--- This creates a table for all of our data
--- Note that calling this before we call use would not work!
 create table listing (
     listing_id int primary key,
     name varchar(256) not null,

@@ -2,15 +2,10 @@ package learn.solarfarm.domain;
 
 import learn.solarfarm.data.DataAccessException;
 import learn.solarfarm.data.SolarPanelRepository;
-import learn.solarfarm.models.Material;
 import learn.solarfarm.models.SolarPanel;
-import learn.solarfarm.ui.ConsoleIO;
-import learn.solarfarm.ui.Controller;
-import learn.solarfarm.ui.View;
 
 import java.time.Year;
 import java.util.List;
-import java.util.Map;
 
 public class SolarPanelService {
     public final static int MAX_ROW_COLUMN = 250;
@@ -33,10 +28,6 @@ public class SolarPanelService {
         return repository.findByKey(section, row, column);
     }
 
-    public List<SolarPanel> findAll() throws DataAccessException {
-        return repository.findAll();
-    }
-
     public SolarPanelResult create(SolarPanel solarPanel) throws DataAccessException {
         SolarPanelResult result = validate(solarPanel);
 
@@ -52,6 +43,7 @@ public class SolarPanelService {
         return result;
     }
 
+    // TODO: Add an update method. Currently not updating row and col
     public SolarPanelResult update(SolarPanel solarPanel) throws DataAccessException
     {
         SolarPanelResult result = validate(solarPanel);
@@ -65,24 +57,22 @@ public class SolarPanelService {
         }
 
         boolean success = repository.update(solarPanel);
-        if (!success)
+        if (!success) {
             result.addErrorMessage("could not update solar panel id " + solarPanel.getId());
+        }
 
         return result;
     }
 
-    public SolarPanelResult deleteByKey(String section, int row, int column) throws DataAccessException
+    // Add a delete method (possibly deleteById?)
+    public SolarPanelResult deleteById(int solarPanelId) throws DataAccessException
     {
         SolarPanelResult result = new SolarPanelResult();
-        SolarPanel solarPanel = findByKey(section, row, column);
-        boolean success = false;
-        if (solarPanel != null)
-        {
-            solarPanel.setId(solarPanel.getId());
-            success = repository.deleteByKey(solarPanel);
-        }
+        boolean success = repository.deleteById(solarPanelId);
         if (!success)
-            result.addErrorMessage("\n[Err]\nThere is no panel " + section + "-" + row + "-" + column + ".");
+        {
+            result.addErrorMessage("could not delete solar panel id " + solarPanelId);
+        }
         return result;
     }
 
@@ -98,7 +88,7 @@ public class SolarPanelService {
             result.addErrorMessage("SolarPanel `section` is required.");
         }
 
-        if (solarPanel.getRow() < 1 || solarPanel.getRow() >= MAX_ROW_COLUMN ) {
+        if (solarPanel.getRow() < 1 || solarPanel.getRow() >= MAX_ROW_COLUMN) {
             result.addErrorMessage("SolarPanel `row` must be a positive number less than or equal to %s.", MAX_ROW_COLUMN);
         }
 

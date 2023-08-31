@@ -11,7 +11,7 @@ public class App
 {
     public static void main(String[] args)
     {
-        SolarPanelFileRepository repository = new SolarPanelFileRepository("./data/solarfarm.txt");
+        SolarPanelFileRepository repository = new SolarPanelFileRepository("./data/board-games.csv");
         SolarPanelService service = new SolarPanelService(repository);
 
         TextIO io = new ConsoleIO();

@@ -86,12 +86,6 @@ public class SolarPanel {
                 && this.column == column;
     }
 
-    public boolean isMatch(SolarPanel solarPanel) {
-        return this.section.equalsIgnoreCase(solarPanel.getSection())
-                && this.row == solarPanel.getRow()
-                && this.column == solarPanel.getColumn();
-    }
-
     public String getKey() {
         return String.format("%s-%s-%s", section, row, column);
     }

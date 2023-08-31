@@ -1,7 +1,5 @@
 package learn.solarfarm.ui;
 
-import learn.solarfarm.domain.SolarPanelService;
-
 import java.util.Scanner;
 
 public class ConsoleIO implements TextIO {
@@ -45,22 +43,17 @@ public class ConsoleIO implements TextIO {
     @Override
     public boolean readBoolean(String prompt) {
         String result = readString(prompt);
-        View.blankInput = result.equalsIgnoreCase("");
         return result.equalsIgnoreCase("y");
     }
 
     @Override
     public int readInt(String prompt) {
         while (true) {
-            if (prompt.equalsIgnoreCase(""))
-                return -1;
             String value = readString(prompt);
             try {
                 int result = Integer.parseInt(value);
                 return result;
             } catch (NumberFormatException ex) {
-                if (value.equalsIgnoreCase(""))
-                    return -1;
                 printf("[Error]%n'%s' is not a valid number.%n", value);
             }
         }
@@ -69,10 +62,8 @@ public class ConsoleIO implements TextIO {
     @Override
     public int readInt(String prompt, int max) {
         while (true) {
-            if (prompt.equalsIgnoreCase(""))
-                return -1;
             int value = readInt(prompt);
-            if (value <= max || value == -1) {
+            if (value <= max) {
                 return value;
             }
             printf("[Error]%nValue must be less than or equal to %s.%n", max);
@@ -83,7 +74,7 @@ public class ConsoleIO implements TextIO {
     public int readInt(String prompt, int min, int max) {
         while (true) {
             int value = readInt(prompt);
-            if ((value >= min && value <= max) || value == -1) {
+            if (value >= min && value <= max) {
                 return value;
             }
             printf("[Error]%nValue must be between %s and %s.%n", min, max);

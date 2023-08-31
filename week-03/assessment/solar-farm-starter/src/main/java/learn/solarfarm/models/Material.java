@@ -10,7 +10,6 @@ public enum Material {
     CD_TE("Cadmium Telluride"),
     CIGS("Copper Indium Gallium Selenide");
 
-
     private final String name;
 
     Material(String name) {

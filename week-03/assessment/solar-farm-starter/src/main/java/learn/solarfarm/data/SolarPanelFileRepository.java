@@ -38,8 +38,7 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
     }
 
     @Override
-    public SolarPanel create(SolarPanel solarPanel) throws DataAccessException
-    {
+    public SolarPanel create(SolarPanel solarPanel) throws DataAccessException {
         List<SolarPanel> all = findAll();
         int nextId = getNextId(all);
         solarPanel.setId(nextId);
@@ -48,7 +47,7 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
         return solarPanel;
     }
 
-    // TODO: Add an update method (must match with interface)
+    // Add an update method (must match with interface)
     @Override
     public boolean update(SolarPanel solarPanel) throws DataAccessException
     {
@@ -65,27 +64,20 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
         return false;
     }
 
-    // TODO: Add a delete method (must match with interface)
+    // Add a delete method (must match with interface)
     @Override
-    public boolean deleteByKey(SolarPanel solarPanel) throws DataAccessException
+    public boolean deleteByKey(String section, int row, int column) throws DataAccessException
     {
-        List<SolarPanel> solarPanels = findAll();
-        for(int i = 0; i < solarPanels.size(); i++)
-        {
-            SolarPanel thisSolarPanel = solarPanels.get(i);
-            if (solarPanel != null && thisSolarPanel.getId() == solarPanel.getId())
-            {
-                solarPanels.remove(i);
-                writeToFile(solarPanels);
-                return true;
+        List<SolarPanel> all = findAll();
+        for (SolarPanel solarPanel : all) {
+            if (solarPanel.isMatch(section, row, column)) {
+                return solarPanel;
             }
         }
-
         return false;
     }
 
-    @Override
-    public List<SolarPanel> findAll() throws DataAccessException {
+    private List<SolarPanel> findAll() throws DataAccessException {
         ArrayList<SolarPanel> result = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 /**
  * A schedule of MicroLeases where no lease can overlap another.
  */
-public class NonOverlappingMicroLeaseSchedule
-{
+public class NonOverlappingMicroLeaseSchedule {
+
     // on success, a MicroLease is stored in leases
     private ArrayList<MicroLease> leases = new ArrayList<>();
 
@@ -25,18 +25,7 @@ public class NonOverlappingMicroLeaseSchedule
      * @return true if MicroLease is valid (see rules)
      * false if not valid
      */
-    public boolean add(MicroLease lease)
-    {
-        if (lease == null)
-            return false;
-        else if (lease.getEnd() == null || lease.getStart() == null)
-            return false;
-        else if (lease.getStart().isAfter(lease.getEnd()))
-            return false;
-        for (MicroLease listLease : leases)
-            if (lease.equals(listLease))
-                return false;
-        leases.add(lease);
-        return true;
+    public boolean add(MicroLease lease) {
+        return false;
     }
 }
