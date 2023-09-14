@@ -1,0 +1,31 @@
+// Testing Examples:
+POST http://localhost:8080 HTTP/1.1
+Content-Type: text/plain
+Accept: text/plain
+
+Value
+
+###
+
+POST http://localhost:8080/pet HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Smoky",
+    "breed": "Cat",
+    "color": "Black"
+}
+
+###
+
+POST http://localhost:8080/pet/1 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "id": 1,
+    "name": "Smoky",
+    "breed": "Cat",
+    "color": "White"
+}

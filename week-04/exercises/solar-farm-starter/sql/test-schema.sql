@@ -1,42 +1,39 @@
-drop database if exists solar_panel_test;
-create database solar_panel_test;
-use solar_panel_test;
+drop database if exists solar_farm_test;
+create database solar_farm_test;
 
-create table solarpanel (
-	solarpanel_id int primary key auto_increment,
+use solar_farm_test;
+
+create table solar_panel (
+	solar_panel_id int primary key auto_increment,
     section varchar(50) not null,
-    `row` int not null default(1),
-    `column` int not null default(1),
-    year_install int not null,
-    material varchar(25) not null,
-    is_tracking int null default(0)
-    /*
-    constraint fk_solarpanel_location_id
-		foreign key(location_id)
-        references location(location_id)
-    */
+    `row` int not null,
+    `column` int not null,
+    year_installed int not null,
+    material varchar(20) not null,
+    is_tracking bit not null
 );
 
-/*
-create table location (
-	location_id int primary key auto_increment,
-	section varchar(50) not null,
-    `row` int not null default(1),
-    `column` int not null default(1)
-);
-*/
+-- Insert some starter data
+insert into solar_panel (section, `row`, `column`, year_installed, material, is_tracking)
+    values
+    ('The Ridge', 1, 1, 2020, 'POLY_SI', 1),
+    ('The Ridge', 1, 2, 2019, 'MONO_SI', 1),
+    ('Flats', 1, 1, 2017, 'CD_TE', 1),
+    ('Flats', 2, 6, 2017, 'A_SI', 1),
+    ('Flats', 3, 7, 2000, 'CIGS', 0);
 
--- Change the delimiter to //. If we didn't change the delimiter, we would run the procedure code literally during our schema execution. 
--- It would delete data, set ids to 1, and add data. That wouldn't turn out well.
+-- Known Good State Procedure -- to be called by tests
 delimiter //
 create procedure set_known_good_state()
 begin
-	delete from solarpanel;
-	alter table solarpanel auto_increment=1;
-    
-    insert into solarpanel (section, `row`, `column`, year_installed, material, is_tracking)
-		values
-		('Hills', 1, 1, 2015, 'POLY_SI', 1),
-        ('Hills', 1, 2, 2021, 'CIGS', 0);
-end//
+    truncate table solar_panel;
+
+    insert into solar_panel (section, `row`, `column`, year_installed, material, is_tracking)
+        values
+        ('The Ridge', 1, 1, 2020, 'POLY_SI', 1),
+        ('The Ridge', 1, 2, 2019, 'MONO_SI', 1),
+        ('Flats', 1, 1, 2017, 'CD_TE', 1),
+        ('Flats', 2, 6, 2017, 'A_SI', 1),
+        ('Flats', 3, 7, 2000, 'CIGS', 0);
+end //
 delimiter ;

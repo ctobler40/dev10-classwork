@@ -1,4 +1,5 @@
 package learn.solarfarm.data;
+import learn.solarfarm.DataHelper;
 import learn.solarfarm.models.SolarPanel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -11,6 +12,7 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
 
     // Each repository is dependent on a JdbcTemplate instance. We make the JdbcTemplate field final and require it in the constructor.
     // This guarantees that the field is set. (It doesn't guarantee that the field can't be null.)
+
     private final JdbcTemplate jdbcTemplate;
 
     public SolarPanelJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
@@ -23,8 +25,8 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
         // To return a single SolarPanel, stream the list, find its first item, then return the item if it's present or else return null.
         final String sql =
                 """
-                select * from solarpanel
-                where solarpanel_id = ?;
+                select * from solar_panel
+                where solar_panel_id = ?;
                 """;
 
         return jdbcTemplate.query(sql, new SolarPanelMapper(), id)
@@ -36,7 +38,7 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
     {
         final String sql =
                 """
-                select * from solarpanel
+                select * from solar_panel
                 where section = ?;
                 """;
 
@@ -48,7 +50,7 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
     {
         final String sql =
                 """
-                select * from solarpanel
+                select * from solar_panel
                 where section = ? and
                     `row` = ? and
                     `column` = ?;
@@ -63,7 +65,7 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
     {
         final String sql =
                 """
-                select * from solarpanel;
+                select * from solar_panel;
                 """;
 
         return jdbcTemplate.query(sql, new SolarPanelMapper());
@@ -77,10 +79,12 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
                 // 2. Set the table name, campaign. The withTableName method represents a fluent interface.
                 // These are methods that support chaining and always return an instance of the current object.
-                .withTableName("solarpanel")
+                .withTableName("solar_panel")
+                // 2.5. We need to tell it what the column names are as well
+                .usingColumns("section", "`row`", "`column`", "year_installed", "material", "is_tracking")
                 // 3. Explicitly define the auto-incremented key, campaign_id.
                 // The usingGeneratedKeyColumns is also a fluent interface. The key column must match.
-                .usingGeneratedKeyColumns("solarpanel_id");
+                .usingGeneratedKeyColumns("solar_panel_id");
 
         // 4. Create an argument hash map. The key should be a String and the value an Object.
         // The key labels the column and the value has flexibility in its data type.
@@ -91,11 +95,11 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
         // The value is the appropriate campaign property.
         // Don't leave out a column expect the auto-incremented key.
         args.put("section", solarPanel.getSection());
-        args.put("row", solarPanel.getRow());
-        args.put("column", solarPanel.getColumn());
+        args.put("`row`", solarPanel.getRow());
+        args.put("`column`", solarPanel.getColumn());
         args.put("year_installed", solarPanel.getYearInstalled());
-        args.put("material", solarPanel.getMaterial().toString());
-        args.put("is_tracking", Integer.parseInt(Boolean.toString(solarPanel.isTracking())));   // This may need to return an int and not a string
+        args.put("material", solarPanel.getMaterial());
+        args.put("is_tracking", solarPanel.isTracking());   // This may need to return an int and not a string
 
         // 6. insert.executeAndReturnKeys(args) builds the SQL query, merges arguments, and sends it to the database server.
         // On success, the auto-incremented key is returned.
@@ -114,14 +118,14 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
         // In this case, if a campaign id was not found, the rows affected would be zero and the update expression would return false.
         // If the campaign id was found, rows affected would be greater than zero and the update expression would return true.
         final String sql = """
-                update solarpanel set
+                update solar_panel set
                     section = ?
                     `row` = ?,
                     `column` = ?,
                     year_installed = ?,
                     material = ?,
                     is_tracking = ?
-                where solarpanel_id = ?;
+                where solar_panel_id = ?;
                 """;
 
         return jdbcTemplate.update(sql,
@@ -137,7 +141,7 @@ public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
     @Override
     public boolean deleteByKey(SolarPanel solarPanel) throws DataAccessException
     {
-        return jdbcTemplate.update("delete from solarpanel where solarpanel_id = ?;", solarPanel.getId()) > 0;
+        return jdbcTemplate.update("delete from solar_panel where solar_panel_id = ?;", solarPanel.getId()) > 0;
     }
 
 }

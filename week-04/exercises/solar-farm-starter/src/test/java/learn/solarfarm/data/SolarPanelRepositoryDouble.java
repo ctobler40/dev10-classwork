@@ -16,6 +16,11 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository
     }
 
     @Override
+    public SolarPanel findById(int id) throws DataAccessException {
+        return null;
+    }
+
+    @Override
     public List<SolarPanel> findBySection(String section) throws DataAccessException {
         ArrayList<SolarPanel> result = new ArrayList<>();
         for (SolarPanel sp : solarPanels) {

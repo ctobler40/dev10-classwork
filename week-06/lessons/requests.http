@@ -1,0 +1,105 @@
+// REST Client adds context UI to .http files. Click Send Request.
+GET https://news.ycombinator.com/ HTTP/1.1 
+
+
+// We can store multiple requests per file by separating each request with a line starting with 
+// three or more # characters.
+// Notice how this one does not display "Send Request"
+GET https://news.ycombinator.com/ HTTP/1.1
+
+###
+
+// Also not the other ways to declare GET
+GET / HTTP/1.1
+Host: example.com
+
+###
+
+POST / HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+    "key": "value"
+}
+
+###
+
+// The PokéAPI is a RESTful read-only Pokémon API. 
+// It has thousands of Pokémon-related data items including moves, evolution, locations, habits, and more. 
+// Its URL scheme is consistent and sensible. It only supports GET requests. 
+// We're not allowed to add, update, or delete Pokémon.
+GET https://pokeapi.co/api/v2/pokemon HTTP/1.1
+Content-Type: application/json
+
+###
+
+// Scan through the Pokémon list. 
+// The url property tells us the exact endpoint required to fetch a Pokémon. 
+// We fetch Weedle whose id (Pokédex number) is 13.
+GET https://pokeapi.co/api/v2/pokemon/13/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+// POST
+POST https://pokeapi.co/api/v2/pokemon/13/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+// PUT
+PUT https://pokeapi.co/api/v2/pokemon/13/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+// DELETE
+DELETE https://pokeapi.co/api/v2/pokemon/13/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+// Fetch all bug sightings from the Maven Project:
+GET http://localhost:8080/sighting HTTP/1.1
+Accept: application/json
+
+###
+
+// If we want a single sighting, we name the resource, /sighting, and follow it with an id.
+GET /sighting/2 HTTP/1.1
+Host: localhost:8080
+Accept: application/json
+
+###
+
+// The one thing that Bug Safari has over PokéAPI is that we can add, update, and delete data.
+// Add a sighting with a POST request. Review the JSON response from GET http:/localhost:8080/sighting/2. 
+// Use it as a template to submit a new sighting.
+POST http://localhost:8080/sighting HTTP/1.1
+Content-Type: application/json
+
+{
+  "bugType": "Mosquito",
+  "description": "mosquitos are jerks",
+  "date": "2020-07-04",
+  "interest": 0.0
+}
+
+###
+
+PUT http://localhost:8080/sighting/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "sightingId": 2,
+  "bugType": "Cicada",
+  "description": "the cicadas are singing in the trees",
+  "date": "2020-09-24",
+  "interest": 9.245
+}
+
+###
+
+DELETE http://localhost:8080/sighting/3 HTTP/1.1
+// NOTE: If we delete a second time, the response is 404 Not Found.

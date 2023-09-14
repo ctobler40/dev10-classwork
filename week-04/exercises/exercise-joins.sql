@@ -1,7 +1,7 @@
 use gravel_family;
 
 -- Solve each task by writing a query below the task description.
--- Each task describes the expected result.
+-- Ea4ch task describes the expected result.
 -- Unfortunately, tasks must be verified manually. :(
 
 -- Example:

@@ -15,13 +15,13 @@ public class SolarPanelMapper implements RowMapper<SolarPanel>
     public SolarPanel mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         SolarPanel solarPanel = new SolarPanel();
-        solarPanel.setId(rs.getInt("solarpanel_id"));
+        solarPanel.setId(rs.getInt("solar_panel_id"));
         solarPanel.setSection(rs.getString("section"));
         solarPanel.setRow(rs.getInt("row"));
         solarPanel.setColumn(rs.getInt("column"));
-        solarPanel.setYearInstalled(rs.getInt("year_install"));
+        solarPanel.setYearInstalled(rs.getInt("year_installed"));
         solarPanel.setMaterial(Material.valueOf(rs.getString("material")));
-        solarPanel.setTracking((rs.getInt("is_tracking") == 1));
+        solarPanel.setTracking((rs.getInt("is_tracking") == 1));   // solarPanel.setTracking((rs.getBoolean("is_tracking")));
         return solarPanel;
     }
 }

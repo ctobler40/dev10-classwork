@@ -82,6 +82,7 @@ public class BackerService {
             return result;
         }
 
+        // In negative tests that do interact with the repository, we need to be deliberate and careful with our stub implementations.
         Backer existing = repository.findByEmailAddress(backer.getEmailAddress());
         if (existing != null && backer.getBackerId() != existing.getBackerId()) {
             result.addErrorMessage("duplicate email address");

@@ -8,6 +8,8 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// Our global error handler is working, so let's try to break it to see what happens.
+// First, comment out the the @ControllerAdvice annotation in the GlobalErrHandler.
 @ControllerAdvice
 public class GlobalErrHandler {
 

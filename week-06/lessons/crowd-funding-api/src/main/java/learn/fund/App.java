@@ -9,13 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+        // To create run a Spring Boot application, add an App class with a main method that executes SpringApplication.run(App.class, args);.
+        // App belongs in a parent package of controllers, data, domain, and models packages.
+        // This allows the component scan (triggered by @SpringBootApplication) to do its work.
         SpringApplication.run(App.class, args);
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-
+    public WebMvcConfigurer corsConfigurer()
+    {
         // Configure CORS globally versus
         // controller-by-controller.
         // Can be combined with @CrossOrigin.

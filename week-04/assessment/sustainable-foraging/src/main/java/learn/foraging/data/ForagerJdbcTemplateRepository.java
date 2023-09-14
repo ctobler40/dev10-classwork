@@ -14,7 +14,9 @@ public class ForagerJdbcTemplateRepository implements ForagerRepository {
     }
 
     @Override
-    public Forager findById(int id) {
+    public Forager findById(int id)
+    {
+        // TODO: Implement
         return null;
     }
 
@@ -29,7 +31,16 @@ public class ForagerJdbcTemplateRepository implements ForagerRepository {
     }
 
     @Override
-    public List<Forager> findByState(String stateAbbr) {
+    public List<Forager> findByState(String stateAbbr)
+    {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
+    public Forager add(Forager forager)
+    {
+        // TODO: Implement
         return null;
     }
 }

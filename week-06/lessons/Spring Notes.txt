@@ -1,0 +1,144 @@
+------------------------------------------------------------------------------------------------------------------------
+Lesson: Spring
+------------------------------------------------------------------------------------------------------------------------
+- Spring is a collection of open-source projects built to solve common application problems
+- They are used widely in professional Java software projects
+- 60% to 80% of teams report using Spring, depending on the survey
+- This makes it a technology worth knowing
+- If you join a team that uses Spring, you can contribute immediately
+
+- Spring is entirely open-source
+    - The projects accept contributions from the community
+    - They are managed by Pivotal Software which is now a division of VMware
+    - The combination of dedicated development resources from VMware with community development makes Spring a rapidly evolving and responsive software initiative
+    - Bugs are fixed quickly
+    - As new technologies and practices become standard (for example, Cloud deployment), Spring adjusts and embraces them.
+
+- Aspect-Oriented Programming (AOP)
+    - We hate to break it to you, but not all code fits into tidy layers and packages
+    - The reality is more complex
+    - Aspect-oriented programming is a paradigm that embraces cross-cutting concerns
+    - Separation of concerns is very important, but some concerns cut across layers
+    - These include logging, security, and transaction management
+- The Spring Framework has powerful AOP capabilities.
+------------------------------------------------------------------------------------------------------------------------
+Lesson: Spring MVC and Spring Boot
+------------------------------------------------------------------------------------------------------------------------
+- An HTTP server is a specialized application for processing HTTP requests and returning HTTP responses
+- Like database servers, they are the product of many years of research and experience
+- High performance and secure HTTP servers include...
+    - the Apache HTTP Server
+    - nginx (pronounced Engine X)
+    - IIS (Internet Information Services)
+    - LSWS (LiteSpeed Web Server)
+    - GWS (Google Web Server)
+- There are more. This is just a sample.
+
+- As a protocol, HTTP is relatively simple, but that doesn't mean it's easy to create a server
+- Commercial-grade servers handle tens of thousands of concurrent clients
+    - they make smart choices about when and how to cache resources
+    - they optimize static resource delivery
+    - they do it all securely
+
+- When we create web applications, we are not creating HTTP servers
+    - We are building an application that knows how to coordinate with an HTTP server
+    - The HTTP server handles the initial request and then decides if there's an application that knows what to do with it
+    - The HTTP server protects us from being overwhelmed by invalid or malicious requests
+    - It only forwards requests that are meaningful to our application
+
+
+
+- Meanwhile, Spring MVC contains types, methods, and patterns that simplify HTTP development
+- Spring MVC knows how to coordinate with a web server
+- Developers don't have to think about those details
+
+- By the time a request reaches application code, it's been successfully parsed and is presented as an easy-to-use Java object
+- Invalid requests are rejected early
+- Developers don't have to worry about them
+
+- HTTP responses are managed with objects
+- Objects are either serialized to JSON or merged with an HTML template and included in the HTTP response body
+- Again, big parts of the HTTP response problem are solved by Spring MVC
+- Developers can focus on application code, not HTTP plumbing
+
+- Each Spring MVC application must be registered with an HTTP server
+- The server dictates the coordination requirements
+- Spring MVC handles coordination so we don't have to
+
+- Controllers are Java classes
+    - We're 100% responsible for creating controllers
+    - Spring MVC recognizes controllers through annotations:
+        - @RestController
+        - @Controller
+        - @GetMapping
+        - @PostMapping, and more
+    - All Spring projects build on the Spring context
+    - Since the context is already scanning for DI components, Spring MVC looks a little closer and tracks controllers
+
+- A controller is just a class
+- Each annotated method models an HTTP request/response for one URL and one or more HTTP methods
+- Example:
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController
+{
+    @GetMapping("/hello")
+    public String helloWorld()
+    {
+        return "Hello World";
+    }
+
+    @PostMapping("/greet")
+    public String generateGreeting(@RequestBody String name)
+    {
+        return "Hello, " + name;
+    }
+}
+
+- Overall, Spring MVC is a project for building APIs and web applications
+- Spring Boot enables rapid application development in Spring MVC
+------------------------------------------------------------------------------------------------------------------------
+Lesson: Spring MVC Annotation Dependency Injection
+------------------------------------------------------------------------------------------------------------------------
+- There are two ways to configure dependency injection in Spring: XML and Java annotations
+- In both cases, we configure dependencies by naming Java classes
+    - With XML, class names are stored in an XML file
+    - With Java annotations, they are attached directly to the class source files
+
+- At runtime, Spring scans the Java class names, resolves them in dependency order, and creates instances in the IoC container
+
+- Annotation-Driven Dependency Injection
+    - @Repository
+        - Registers a dependency in the IoC container
+        - It is a specialist annotation that targets our repository classes
+        - Must be added to concrete classes
+            - No interfaces!
+    - @Component
+        - Registers a dependency in the IoC container
+        - When attached to a class, Spring creates an instance at runtime
+    - @Autowired / @Inject
+        - Required for field and setter injection
+        - Not required for constructor injection
+    - @Service
+        - Registers a dependency
+        - A specialist annotation that targets our service classes
+        - Works just like @Component, but describes the class more accurately
+    - @RestController / @Controller
+        - Registers a dependency
+        - It doesn't simply register an instance in the IoC container
+        - Instead, it activates the Spring MVC plumbing
+    - @Bean
+        - Annotates a method whose return type registers an object in the IoC container
+        - Besides the best name, it is primarily used for configuration
+    - @SpringBootApplication
+        - Primary configuration for a Spring Boot application
+        - When the method executes, we run out application via SpringApplication.run
+------------------------------------------------------------------------------------------------------------------------
+Lesson: Spring Controller Concepts
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------

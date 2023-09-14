@@ -12,10 +12,19 @@ import java.util.List;
 import static learn.fund.TestHelper.makeBacker;
 import static org.junit.jupiter.api.Assertions.*;
 
+// @SpringBootTest enables Spring Boot auto-configuration.
+// It gives us the full power of a Spring application: scanning packages, registering objects in the IoC container,
+// and injecting dependencies in our tests.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class BackerJdbcTemplateRepositoryTest {
-
+class BackerJdbcTemplateRepositoryTest
+{
+    // By default, @SpringBootTest starts a mock HTTP server since some components require it.
+    // Here, we tell @SpringBootTest to skip the mocked HTTP server with webEnvironment = SpringBootTest.WebEnvironment.NONE.
+    // We don't need an HTTP server for repository tests.
     static final int MISSING_ID = 100;
+
+    // @Autowired injects IoC container objects directly into protected fields.
+    // In tests, we don't worry about constructor injection. We're not as finicky with private state.
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
