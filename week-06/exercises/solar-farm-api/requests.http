@@ -1,0 +1,18 @@
+// 11. Run the app. Confirm it's working by sending HTTP requests.
+GET http://localhost:8080 HTTP/1.1
+
+###
+
+GET http://localhost:8080/panels/red HTTP/1.1
+
+###
+
+// 13. Run the app. Confirm it's working by sending HTTP requests.
+
+###
+
+// 15. Run the app. Confirm it's working by sending HTTP requests.
+
+###
+
+// 17. Run the app. Confirm it's working by sending HTTP requests.

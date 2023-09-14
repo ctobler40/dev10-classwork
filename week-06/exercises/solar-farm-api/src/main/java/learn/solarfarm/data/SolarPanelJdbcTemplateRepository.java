@@ -3,10 +3,13 @@ package learn.solarfarm.data;
 import learn.solarfarm.models.SolarPanel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 
+// 8. Annotate appropriate classes with @Service, @Repository.
+@Repository
 public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
 
     private final JdbcTemplate jdbcTemplate;

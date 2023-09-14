@@ -2,11 +2,16 @@ package learn.solarfarm.domain;
 
 import learn.solarfarm.data.SolarPanelRepository;
 import learn.solarfarm.models.SolarPanel;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.time.Year;
 import java.util.List;
 
-public class SolarPanelService {
+// 8. Annotate appropriate classes with @Service, @Repository.
+@Service
+public class SolarPanelService
+{
     public final static int MAX_ROW_COLUMN = 250;
 
     private final SolarPanelRepository repository;
