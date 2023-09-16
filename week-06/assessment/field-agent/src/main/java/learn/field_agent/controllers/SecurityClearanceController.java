@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/security-clearance")
+@RequestMapping("/api/securityClearance")
 public class SecurityClearanceController
 {
     private final SecurityClearanceService securityClearanceService;
@@ -26,10 +26,10 @@ public class SecurityClearanceController
         return securityClearanceService.findAll();
     }
 
-    @GetMapping("/{agencyId}")
-    public ResponseEntity<SecurityClearance> findById(@PathVariable int agencyId)
+    @GetMapping("/{securityClearanceId}")
+    public ResponseEntity<SecurityClearance> findById(@PathVariable int securityClearanceId)
     {
-        SecurityClearance sc = securityClearanceService.findById(agencyId);
+        SecurityClearance sc = securityClearanceService.findById(securityClearanceId);
         if (sc == null)
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -49,7 +49,7 @@ public class SecurityClearanceController
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/{agencyId}")
+    @PutMapping("/{securityClearanceId}")
     public ResponseEntity<Object> update(@PathVariable int securityClearanceId, @RequestBody SecurityClearance sc)
     {
         if (securityClearanceId != sc.getSecurityClearanceId())
@@ -65,7 +65,10 @@ public class SecurityClearanceController
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/{agencyId}")
+    // This requires a strategy.
+    // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
+    // Only allow deletion if a security clearance key isn't referenced.
+    @DeleteMapping("/{securityClearanceId}")
     public ResponseEntity<Void> deleteById(@PathVariable int securityClearanceId)
     {
         if (securityClearanceService.deleteById(securityClearanceId))

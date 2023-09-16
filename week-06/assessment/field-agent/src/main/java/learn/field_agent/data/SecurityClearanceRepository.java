@@ -14,6 +14,8 @@ public interface SecurityClearanceRepository
 
     SecurityClearance add(SecurityClearance sc);
 
+    int agentCount(int scId);
+
     boolean update(SecurityClearance sc);
 
     @Transactional

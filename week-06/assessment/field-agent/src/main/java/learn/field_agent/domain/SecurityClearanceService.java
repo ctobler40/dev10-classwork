@@ -6,9 +6,11 @@ import learn.field_agent.models.Agency;
 import learn.field_agent.models.Agent;
 import learn.field_agent.models.Location;
 import learn.field_agent.models.SecurityClearance;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SecurityClearanceService
 {
     private final SecurityClearanceRepository repository;
@@ -33,6 +35,12 @@ public class SecurityClearanceService
             return result;
         }
 
+        result = validateName(sc);
+        if (!result.isSuccess())
+        {
+            return result;
+        }
+
         if (sc.getSecurityClearanceId() != 0)
         {
             result.addMessage("securityClearanceId cannot be set for `add` operation", ResultType.INVALID);
@@ -51,6 +59,12 @@ public class SecurityClearanceService
             return result;
         }
 
+        result = validateName(sc);
+        if (!result.isSuccess())
+        {
+            return result;
+        }
+
         if (sc.getSecurityClearanceId() <= 0)
         {
             result.addMessage("securityClearanceId must be set for `update` operation", ResultType.INVALID);
@@ -66,21 +80,51 @@ public class SecurityClearanceService
         return result;
     }
 
-    public boolean deleteById(int agencyId) {
-        return repository.deleteById(agencyId);
+    public boolean deleteById(int scId)
+    {
+        // This requires a strategy.
+        // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
+        // Only allow deletion if a security clearance key isn't referenced.
+        if (repository.agentCount(scId) == 0)
+            return repository.deleteById(scId);
+
+        // TODO: Probably need something else here
+        return false;
     }
 
     private Result<SecurityClearance> validate(SecurityClearance sc)
     {
         Result<SecurityClearance> result = new Result<>();
 
-        if (sc == null) {
+        if (sc == null)
+        {
             result.addMessage("Security Clearance cannot be null", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(sc.getName())) {
+        if (Validations.isNullOrBlank(sc.getName()))
+        {
             result.addMessage("name is required", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    // Clearance Checks:
+    // 1. Security clearance name is required.
+    // 2. Name cannot be duplicated.
+    private Result<SecurityClearance> validateName(SecurityClearance sc)
+    {
+        Result<SecurityClearance> result = new Result<>();
+        List<SecurityClearance> scs = repository.findAll();
+
+        for (int i = 0; i < scs.size(); i++)
+        {
+            SecurityClearance thisSc =  scs.get(i);
+            if (thisSc.getName().equalsIgnoreCase(sc.getName()))
+            {
+                result.addMessage("Security Clearance cannot have the same name", ResultType.INVALID);
+            }
         }
 
         return result;

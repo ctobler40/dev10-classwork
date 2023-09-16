@@ -27,11 +27,7 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     @Override
     public List<SecurityClearance> findAll()
     {
-        final String sql =
-                """
-                select security_clearance_id, name security_clearance_name
-                from security_clearance;
-                """;
+        final String sql = "select security_clearance_id, name as security_clearance_name from security_clearance;";
 
         return jdbcTemplate.query(sql, new SecurityClearanceMapper());
     }
@@ -39,12 +35,7 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     @Override
     public SecurityClearance findById(int securityClearanceId) {
 
-        final String sql =
-                """
-                select security_clearance_id, name security_clearance_name
-                from security_clearance
-                where security_clearance_id = ?;
-                """;
+        final String sql = "select security_clearance_id, name as security_clearance_name from security_clearance where security_clearance_id = ?; ";
 
         return jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
                 .stream()
@@ -54,34 +45,43 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     @Override
     public SecurityClearance add(SecurityClearance sc)
     {
-        final String sql = "insert into security_clearance (`name`) "
-                + " values (?);";
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("security_clearance")
+                .usingColumns("`name`")
+                .usingGeneratedKeyColumns("security_clearance_id");
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        int rowsAffected = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, sc.getName());
-            return ps;
-        }, keyHolder);
+        HashMap<String, Object> args = new HashMap<>();
+        args.put("`name`", sc.getName());
 
-        if (rowsAffected <= 0) {
-            return null;
-        }
+        int scId = insert.executeAndReturnKey(args).intValue();
+        sc.setSecurityClearanceId(scId);
 
-        sc.setSecurityClearanceId(keyHolder.getKey().intValue());
         return sc;
+    }
+
+    @Override
+    public int agentCount(int scId)
+    {
+        return jdbcTemplate.queryForObject("select count(*) from agency_agent where security_clearance_id = ?;", Integer.class, scId);
     }
 
     @Override
     public boolean update(SecurityClearance sc)
     {
-        return false;
+        final String sql = "update security_clearance set `name` = ? where security_clearance_id = ?;";
+
+        return jdbcTemplate.update(sql, sc.getName(), sc.getSecurityClearanceId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int scId)
     {
-        return false;
+        // This requires a strategy.
+        // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
+        // Only allow deletion if a security clearance key isn't referenced.
+        final String sql = "delete from security_clearance where security_clearance_id = ?;";
+
+        return jdbcTemplate.update(sql, scId) > 0;
     }
 }
