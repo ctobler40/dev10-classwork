@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface AgentRepository {
+    // TODO: Fetch an individual agent with aliases attached?
     List<Agent> findAll();
 
     Agent findById(int agentId);

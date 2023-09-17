@@ -31,5 +31,8 @@ public class App {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
+
+        // TODO: Implement full HTTP CRUD for mission.
+        // TODO: Implement full HTTP CRUD for the mission/agent many-to-many relationship.
     }
 }

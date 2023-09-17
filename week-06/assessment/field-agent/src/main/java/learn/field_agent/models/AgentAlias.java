@@ -2,18 +2,18 @@ package learn.field_agent.models;
 
 import java.util.Objects;
 
-public class Alias
+public class AgentAlias
 {
     private int aliasId;
     private String name;
     private String persona;
     private Agent agent;
 
-    public Alias() {
+    public AgentAlias() {
 
     }
 
-    public Alias(int aliasId, String name, String persona, Agent agent) {
+    public AgentAlias(int aliasId, String name, String persona, Agent agent) {
         this.aliasId = aliasId;
         this.name = name;
         this.persona = persona;
@@ -56,7 +56,7 @@ public class Alias
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Alias alias = (Alias) o;
+        AgentAlias alias = (AgentAlias) o;
         return aliasId == alias.aliasId && Objects.equals(name, alias.name) && Objects.equals(persona, alias.persona) && Objects.equals(agent, alias.agent);
     }
 

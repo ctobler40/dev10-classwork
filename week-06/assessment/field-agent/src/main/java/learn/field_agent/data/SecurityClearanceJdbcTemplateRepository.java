@@ -79,6 +79,7 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
         // This requires a strategy.
         // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
         // Only allow deletion if a security clearance key isn't referenced.
+        jdbcTemplate.update("delete from agency_agent where security_clearance_id = ?;", scId);
         final String sql = "delete from security_clearance where security_clearance_id = ?;";
         return jdbcTemplate.update(sql, scId) > 0;
     }

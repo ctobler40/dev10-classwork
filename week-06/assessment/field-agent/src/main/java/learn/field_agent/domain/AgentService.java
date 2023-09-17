@@ -1,7 +1,9 @@
 package learn.field_agent.domain;
 
+import learn.field_agent.data.AgentAliasRepository;
 import learn.field_agent.data.AgentRepository;
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.AgentAlias;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,10 +14,12 @@ public class AgentService {
 
     private final AgentRepository repository;
 
-    public AgentService(AgentRepository repository) {
-        this.repository = repository;
-    }
+    private final AgentAliasRepository aliasRepository;
 
+    public AgentService(AgentRepository repository, AgentAliasRepository aliasRepository) {
+        this.repository = repository;
+        this.aliasRepository = aliasRepository;
+    }
     public List<Agent> findAll() {
         return repository.findAll();
     }
@@ -61,6 +65,93 @@ public class AgentService {
 
     public boolean deleteById(int agentId) {
         return repository.deleteById(agentId);
+    }
+
+    public Result<AgentAlias> addAlias(AgentAlias alias) {
+        Result<AgentAlias> result = validateAlias(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        result = validatePersona(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (alias.getAliasId() != 0) {
+            result.addMessage("aliasId cannot be set for `add` operation", ResultType.INVALID);
+            return result;
+        }
+
+        alias = aliasRepository.add(alias);
+        result.setPayload(alias);
+        return result;
+    }
+
+    public Result<AgentAlias> updateAlias(AgentAlias alias) {
+        Result<AgentAlias> result = validateAlias(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        result = validatePersona(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (alias.getAliasId() <= 0) {
+            result.addMessage("aliasId must be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+
+        return result;
+    }
+
+    public boolean deleteAliasById(int aliasId) {
+        return repository.deleteById(aliasId);
+    }
+
+    private Result<AgentAlias> validateAlias(AgentAlias alias) {
+        Result<AgentAlias> result = new Result<>();
+        if (alias == null) {
+            result.addMessage("alias cannot be null", ResultType.INVALID);
+            return result;
+        }
+
+        if (Validations.isNullOrBlank(alias.getName())) {
+            result.addMessage("name is required", ResultType.INVALID);
+            return result;
+        }
+
+        // Persona is not required unless a name is duplicated. The persona differentiates between duplicate names.
+        if (Validations.isNullOrBlank(alias.getPersona())) {
+            if (aliasRepository.findByName(alias.getName()).size() > 1) {
+                result.addMessage("similar names. Persona is required", ResultType.INVALID);
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    // Clearance Checks:
+    // 1. Security clearance name is required.
+    // 2. Name cannot be duplicated.
+    private Result<AgentAlias> validatePersona(AgentAlias alias)
+    {
+        Result<AgentAlias> result = new Result<>();
+        List<Agent> agents = repository.findAll();
+
+        for (int i = 0; i < agents.size(); i++)
+        {
+            List<AgentAlias> thisAlias = agents.get(i).getAliases();
+            if (thisAlias.contains(alias.getName()))
+            {
+                result.addMessage("Alias cannot have the same name", ResultType.INVALID);
+            }
+        }
+
+        return result;
     }
 
     private Result<Agent> validate(Agent agent) {
