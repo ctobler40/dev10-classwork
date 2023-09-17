@@ -20,13 +20,13 @@ POST http://localhost:8080/api/mission HTTP/1.1
 Content-Type: application/json
 
 {
-    "code_name": "Blackhawhk",
+    "codeName": "Blackhawhk",
     "notes": "None",
-    "start_date": "03/04/1924",
-    "projected_end_date": "04/16/1924",
-    "actual_end_date": "06/08/1924",
-    "operational_cost": 500,
-    "agency_id": 1
+    "startDate": "03/04/1924",
+    "projectedEndDate": "04/16/1924",
+    "actualEndDate": "06/08/1924",
+    "operationalCost": 500,
+    "agencyId": 1
 }
 
 ###
@@ -36,8 +36,13 @@ PUT http://localhost:8080/api/mission/2 HTTP/1.1
 Content-Type: application/json
 
 {
-    "securityClearanceId": 2,
-    "name": "Super Duper Top Secret #11"
+    "codeName": "Blackhawhk",
+    "notes": "None",
+    "startDate": "03/04/1924",
+    "projectedEndDate": "04/16/1924",
+    "actualEndDate": "06/08/1924",
+    "operationalCost": 500,
+    "agencyId": 1
 }
 
 ###

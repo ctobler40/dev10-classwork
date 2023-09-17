@@ -4,11 +4,16 @@ import learn.field_agent.data.mappers.AgentAliasMapper;
 import learn.field_agent.models.AgentAlias;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class AgentAliasJdbcTemplateRepository implements AgentAliasRepository {
@@ -55,18 +60,22 @@ public class AgentAliasJdbcTemplateRepository implements AgentAliasRepository {
     }
     @Override
     public AgentAlias add(AgentAlias alias) {
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("alias")
-                .usingColumns("`name`", "persona", "agent_id")
-                .usingGeneratedKeyColumns("alias_id");
+        final String sql = "insert into alias (`name`, persona, agent_id) values (?, ?, ?);";
 
-        HashMap<String, Object> args = new HashMap<>();
-        args.put("`name`", alias.getName());
-        args.put("persona", alias.getPersona());
-        args.put("agent_id", alias.getAgent().getAgentId());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, alias.getName());
+            ps.setString(2, alias.getPersona());
+            ps.setInt(3, alias.getAgentId());
+            return ps;
+        }, keyHolder);
 
-        int aliasId = insert.executeAndReturnKey(args).intValue();
-        alias.setAliasId(aliasId);
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        alias.setAliasId(Objects.requireNonNull(keyHolder.getKey()).intValue());
         return alias;
     }
 
@@ -77,7 +86,7 @@ public class AgentAliasJdbcTemplateRepository implements AgentAliasRepository {
                 "persona = ?, " +
                 "agent_id = ?, " +
                 "where alias_id = ?;";
-        return jdbcTemplate.update(sql, alias.getName(), alias.getPersona(), alias.getAgent().getAgentId(), alias.getAliasId()) > 0;
+        return jdbcTemplate.update(sql, alias.getName(), alias.getPersona(), alias.getAgentId(), alias.getAliasId()) > 0;
     }
 
     @Override

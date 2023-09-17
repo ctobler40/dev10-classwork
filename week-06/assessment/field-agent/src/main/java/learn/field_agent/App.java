@@ -32,7 +32,6 @@ public class App {
             }
         };
 
-        // TODO: Implement full HTTP CRUD for mission.
         // TODO: Implement full HTTP CRUD for the mission/agent many-to-many relationship.
     }
 }

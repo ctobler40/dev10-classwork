@@ -69,6 +69,7 @@ public class AgentService {
 
     public Result<AgentAlias> addAlias(AgentAlias alias) {
         Result<AgentAlias> result = validateAlias(alias);
+
         if (!result.isSuccess()) {
             return result;
         }
@@ -113,6 +114,7 @@ public class AgentService {
 
     private Result<AgentAlias> validateAlias(AgentAlias alias) {
         Result<AgentAlias> result = new Result<>();
+
         if (alias == null) {
             result.addMessage("alias cannot be null", ResultType.INVALID);
             return result;
@@ -120,6 +122,11 @@ public class AgentService {
 
         if (Validations.isNullOrBlank(alias.getName())) {
             result.addMessage("name is required", ResultType.INVALID);
+            return result;
+        }
+
+        if (repository.findById(alias.getAgentId()) == null){
+            result.addMessage("cannot find corresponding agent", ResultType.INVALID);
             return result;
         }
 
