@@ -37,4 +37,8 @@ Content-Type: application/json
 ###
 
 // Removing a Security Clearance
-DELETE http://localhost:8080/api/securityClearance/4 HTTP/1.1
+DELETE http://localhost:8080/api/securityClearance/9 HTTP/1.1
+
+###
+
+// TODO: Test Aliases

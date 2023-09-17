@@ -10,6 +10,8 @@ public interface AgentRepository {
 
     Agent findById(int agentId);
 
+    Agent findByAlias(String aliasName);
+
     Agent add(Agent agent);
 
     boolean update(Agent agent);

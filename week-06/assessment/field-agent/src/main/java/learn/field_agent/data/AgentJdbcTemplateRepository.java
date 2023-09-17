@@ -49,6 +49,11 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
     }
 
     @Override
+    public Agent findByAlias(String aliasName) {
+        return null;
+    }
+
+    @Override
     public Agent add(Agent agent) {
 
         final String sql = "insert into agent (first_name, middle_name, last_name, dob, height_in_inches) "

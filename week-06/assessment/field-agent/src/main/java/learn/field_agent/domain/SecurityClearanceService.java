@@ -85,11 +85,12 @@ public class SecurityClearanceService
         // This requires a strategy.
         // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
         // Only allow deletion if a security clearance key isn't referenced.
-        if (repository.agentCount(scId) == 0)
-            return repository.deleteById(scId);
+        Result<SecurityClearance> result = validate(repository.findById(scId));
+        if (!result.isSuccess()) {
+            return false;
+        }
 
-        // TODO: Probably need something else here
-        return false;
+        return repository.deleteById(scId);
     }
 
     private Result<SecurityClearance> validate(SecurityClearance sc)
@@ -105,6 +106,13 @@ public class SecurityClearanceService
         if (Validations.isNullOrBlank(sc.getName()))
         {
             result.addMessage("name is required", ResultType.INVALID);
+            return result;
+        }
+
+        if (repository.agentCount(sc.getSecurityClearanceId()) > 0)
+        {
+            result.addMessage("cannot delete Security Clearance with active agents", ResultType.INVALID);
+            return result;
         }
 
         return result;
@@ -120,7 +128,7 @@ public class SecurityClearanceService
 
         for (int i = 0; i < scs.size(); i++)
         {
-            SecurityClearance thisSc =  scs.get(i);
+            SecurityClearance thisSc = scs.get(i);
             if (thisSc.getName().equalsIgnoreCase(sc.getName()))
             {
                 result.addMessage("Security Clearance cannot have the same name", ResultType.INVALID);
