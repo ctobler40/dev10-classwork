@@ -73,6 +73,8 @@ public class SecurityClearanceController
     {
         // How could you update this to return result information instead of status codes?
         // What status code would you return if the user tried to delete a SC in use?
+
+        // TODO: Turn this into a result instead of a boolean!
         if (securityClearanceService.deleteById(securityClearanceId))
         {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
