@@ -1,0 +1,40 @@
+// Security Clearance Tests
+
+// Getting all Security Clearances
+GET http://localhost:8080/api/securityClearance HTTP/1.1
+
+###
+
+// Getting one Security Clearance
+GET http://localhost:8080/api/securityClearance/6 HTTP/1.1
+
+###
+
+// Getting another Security Clearance
+GET http://localhost:8080/api/securityClearance/2 HTTP/1.1
+
+###
+
+// Adding a Security Clearance
+POST http://localhost:8080/api/securityClearance HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Sopu Dupe Top Secret #34"
+}
+
+###
+
+// Updating one Security Clearance
+PUT http://localhost:8080/api/securityClearance/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "securityClearanceId": 2,
+    "name": "Super Duper Top Secret #11"
+}
+
+###
+
+// Removing a Security Clearance
+DELETE http://localhost:8080/api/securityClearance/9 HTTP/1.1
