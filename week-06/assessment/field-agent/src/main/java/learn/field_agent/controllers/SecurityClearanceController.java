@@ -71,10 +71,12 @@ public class SecurityClearanceController
     @DeleteMapping("/{securityClearanceId}")
     public ResponseEntity<Void> deleteById(@PathVariable int securityClearanceId)
     {
+        // How could you update this to return result information instead of status codes?
+        // What status code would you return if the user tried to delete a SC in use?
         if (securityClearanceService.deleteById(securityClearanceId))
         {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 }
