@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class AgencyJdbcTemplateRepository implements AgencyRepository {
@@ -51,7 +52,6 @@ public class AgencyJdbcTemplateRepository implements AgencyRepository {
 
     @Override
     public Agency add(Agency agency) {
-
         final String sql = "insert into agency (short_name, long_name) values (?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -66,7 +66,7 @@ public class AgencyJdbcTemplateRepository implements AgencyRepository {
             return null;
         }
 
-        agency.setAgencyId(keyHolder.getKey().intValue());
+        agency.setAgencyId(Objects.requireNonNull(keyHolder.getKey()).intValue());
         return agency;
     }
 

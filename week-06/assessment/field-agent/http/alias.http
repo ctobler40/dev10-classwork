@@ -1,0 +1,29 @@
+// Alias Tests
+
+// TODO: Adding an Alias
+POST http://localhost:8080/api/agent/alias HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Joker",
+    "persona": "A man who sneaks.",
+    "agentId": 1
+}
+
+###
+
+// Updating one Alias
+PUT http://localhost:8080/api/agent/alias/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "aliasId": 2,
+    "name": "Noir",
+    "persona": "Quiet and Humble",
+    "agentId": 1
+}
+
+###
+
+// Removing an Alias
+DELETE http://localhost:8080/api/agent/alias/2 HTTP/1.1
