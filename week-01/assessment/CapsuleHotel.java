@@ -7,20 +7,15 @@ public class CapsuleHotel
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
-<<<<<<< HEAD
 
         // All declared variables
         int hotelCapacity = -1, optionChosen = -1;
-        String[] capsules;
-=======
->>>>>>> 3ce8ce1a5f0acc69643f8059c0f9bad0538fdca8
+        String[] capsules = new String[50];
 
         // On start up, the application prompts the administrator for the hotel's capacity.
         // The capacity determines how many capsules are available.
 
         // When the program starts up, capsules and guests will be represented by a String[] of the appropriate size.
-
-<<<<<<< HEAD
         // Keep running while option != exit
         while (optionChosen != 4)
         {
@@ -53,9 +48,7 @@ public class CapsuleHotel
     public static void CheckIn(String[] capsules)
     {
         Scanner input = new Scanner(System.in);
-=======
         // The administrator will have 4 options: Check In, Check Out, View Guests, and Exit
->>>>>>> 3ce8ce1a5f0acc69643f8059c0f9bad0538fdca8
 
         // The administrator may book a guest in an unoccupied numbered capsule.
         // Unoccupied capsules are represented by a null array value.
@@ -106,7 +99,6 @@ public class CapsuleHotel
         int capsuleNum = -1, decrement = 6, increment = 5;
 
         // The administrator may view guests and their capsule numbers in groups of 11.
-<<<<<<< HEAD
         if (capsules.length <= 11)
         {
             // When asking to view capsules, if # capsules <= 11, then we don't bother asking for the capsule #!
@@ -232,7 +224,5 @@ public class CapsuleHotel
             }
         }
         return option;
-=======
->>>>>>> 3ce8ce1a5f0acc69643f8059c0f9bad0538fdca8
     }
 }

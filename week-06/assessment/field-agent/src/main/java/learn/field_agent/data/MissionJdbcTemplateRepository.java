@@ -35,8 +35,8 @@ public class MissionJdbcTemplateRepository implements MissionRepository {
         return jdbcTemplate.query(sql, new MissionMapper());
     }
 
+    // NOTE: We only need transactional if we want to group multiple queries/operations as one SQL transaction, so that they wholly fail or wholly succeed.
     @Override
-    @Transactional
     public Mission findById(int missionId) {
 
         final String sql = "select " +
