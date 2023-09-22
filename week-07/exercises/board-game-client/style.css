@@ -1,0 +1,12 @@
+/* * {
+    border: 1px solid red;
+} */
+
+/* Could do this  */
+/* div.card { 
+    display: inline-block;
+} */
+
+#app-body {
+    background-color: aqua;
+}
