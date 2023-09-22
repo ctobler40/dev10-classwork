@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./favicon.ico" rel="icon" />
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/app.css">
     <title>Field Agent</title>
 </head>
 
@@ -20,9 +21,17 @@
                 <li class="nav-item">
                     <a id="linkAgencies" href="#" class="nav-link">Agencies</a>
                 </li>
+                <li class="nav-item">
+                    <a id="linkAliases" href="#" class="nav-link">Aliases</a>
+                </li>
             </ul>
-            <div class="d-flex flex-grow-1 justify-content-end landing list">
-                <button id="btnAdd" class="btn btn-primary">Add Agent</button>
+            <div class="dropdown">
+                <button onclick="openDropdown()" class="dropbtn btn-primary">Manage</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <div class="d-flex flex-grow-1 justify-content-start landing list">
+                        <button id="btnAdd" class="btn btn-primary">Add Agent</button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- we start on the "landing" view -->
@@ -37,7 +46,13 @@
         </div>
         <!-- the "list" view shows all agents -->
         <div class="list d-none">
-            <table class="table table-striped">
+            <div class="card text-center">
+                <div class="card-header">
+                    Agents
+                </div>
+                <p> </p>
+            </div>
+            <!-- <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -47,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody> </tbody>
-            </table>
+            </table> -->
             <div class="alert alert-warning py-4 d-none">
                 No agents found.<br>
                 Do you want to add an agent?
@@ -57,7 +72,6 @@
         <div class="form d-none">
             <h1 class="display-6">Add an Agent</h1>
             <div id="validationSummary" class="alert alert-danger d-none">
-
             </div>
             <form>
                 <div class="row mb-3">
