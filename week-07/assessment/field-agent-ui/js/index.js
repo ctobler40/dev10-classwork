@@ -1,11 +1,20 @@
 //#region INIT
 const DISPLAY_NONE = "d-none";
-const BASE_URL = 'http://localhost:8080/api/agent';
+
+const BASE_AGENT_URL = 'http://localhost:8080/api/agent';
+const BASE_AGENCY_URL = 'http://localhost:8080/api/agency';
+const BASE_ALIAS_URL = 'http://localhost:8080/api/agent/alias';
 
 const deleteAgent = document.getElementById("deleteAgent");
 const form = document.querySelector("form");
+
 const div = document.querySelector(".list > div");
+const div2 = document.querySelector(".list-agencies > div");
+const div3 = document.querySelector(".list-aliases > div");
 const p = div.querySelector("p");
+const p2 = div2.querySelector("p");
+const p3 = div3.querySelector("p");
+
 let currentView = "landing";
 //#endregion
 
@@ -20,9 +29,19 @@ function changeView(view) {
     currentView = view;
 }
 
-function showList() {
+function showAgentList() {
     fetchAgents();
     changeView("list");
+}
+
+function showAliasList() {
+    fetchAliases();
+    changeView("list-aliases");
+}
+
+function showAgencyList() {
+    fetchAgencies();
+    changeView("list-agencies");
 }
 
 function showValidationSummary(errors) {
@@ -41,6 +60,7 @@ function hideValidationSummary() {
 }
 //#endregion
 
+//#region AGENT
 //#region ADD
 async function add(agent) {
     const config = {
@@ -50,7 +70,7 @@ async function add(agent) {
         },
         body: JSON.stringify(agent)
     };
-    const response = await fetch(BASE_URL, config);
+    const response = await fetch(BASE_AGENT_URL, config);
 	if (response.status === 201) {
 		return null;
 	} else if (response.status === 400) {
@@ -67,7 +87,7 @@ async function add(agent) {
 //#region UPDATE
 // Populate an existing agent into the HTML form.
 async function showUpdate(agentId) {
-	const agent = await findById(agentId);
+	const agent = await findAgentById(agentId);
 	if (!agent) {
 		return;
 	}
@@ -92,7 +112,7 @@ async function update(agent) {
 		},
 		body: JSON.stringify(agent),
 	};
-	const response = await fetch(`${BASE_URL}/${agent.agentId}`, config);
+	const response = await fetch(`${BASE_AGENT_URL}/${agent.agentId}`, config);
 	if (response.status === 204) {
 		return null;
 	} else if (response.status === 400) {
@@ -112,7 +132,7 @@ async function update(agent) {
 // The confirmation view should allow for a delete or cancel.
 // Cancel returns to the agent list view.
 async function showDelete(agentId) {
-    const agent = await findById(agentId);
+    const agent = await findAgentById(agentId);
 	if (!agent) {
 		return;
 	}
@@ -132,24 +152,24 @@ async function confirmDelete(agentId) {
 		method: 'DELETE',
 	};
     // Creating the response
-	const response = await fetch(`${BASE_URL}/${agentId}`, config);
+	const response = await fetch(`${BASE_AGENT_URL}/${agentId}`, config);
 
     // Update and change
     populateAgents();
-    showList();
+    showAgentList();
 }
 //#endregion
 
 //#region MODIFY AGENTS
 function populateAgents() {
-    findAll().then(agents => {
+    findAllAgents().then(agents => {
         let html = "";
         for (const agent of agents) {
             // This embedded HTML explicitly attaches a function call for update and delete.
             html += 
             `
             <div class="card-footer text-muted">
-                [${getAliases(agent.agentId)}]
+                Agent #${agent.agentId} - [${getAliases(agent.agentId)}]
             </div>
             <div class="card-body">
                 <h5 class="card-title">${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</h5>
@@ -164,14 +184,14 @@ function populateAgents() {
 }
 
 function fetchAgents() {
-    fetch(BASE_URL)
+    fetch(BASE_AGENT_URL)
         .then(response => {
             if (response.ok) {
                 return response.json();
             }
             return Promise.reject();
         })
-        .then(agents => populateAgents(agents))
+        .then(populateAgents())
         .catch(console.error);
 }
 
@@ -199,7 +219,7 @@ function submitForm(evt) {
                 // success
                 if (!errors) {
                     resetForm();
-                    showList();
+                    showAgentList();
                 } else if (errors.messages.length) {
                     // errors
                     renderErrors(errors.messages);
@@ -233,12 +253,7 @@ document.getElementById("linkHome")
 document.getElementById("linkAgents")
     .addEventListener("click", evt => {
         evt.preventDefault();
-        showList();
-    });
-
-document.getElementById("linkAgencies")
-    .addEventListener("click", evt => {
-        evt.preventDefault();
+        showAgentList();
     });
 
 document.querySelector(".list button")
@@ -250,7 +265,7 @@ form.addEventListener("submit", submitForm);
 
 document.querySelector("form button[type=button]")
     .addEventListener("click", () => {
-        showList();
+        showAgentList();
     }); 
 
 deleteAgent.addEventListener("submit", () => {
@@ -259,19 +274,137 @@ deleteAgent.addEventListener("submit", () => {
 
 document.getElementById("deleteAgent").querySelector("button[type=button]")
     .addEventListener("click", () => {
-        showList();
+        showAgentList();
     });
+//#endregion
+//#endregion
+
+//#region AGENCY
+//#region MODIFY AGENCY
+function populateAgencies() {
+    findAllAgencies().then(agencies => {
+        let html = "";
+        for (const agency of agencies) {
+            // This embedded HTML explicitly attaches a function call for update and delete.
+            html += 
+            `
+            <div class="card-footer text-muted">
+                Agency #${agency.agencyId}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">${agency.shortName}</h5>
+                <p class="card-text">Full Name: ${agency.longName}</p>
+                <button href="#" class="btn btn-primary" onClick="showDelete(${agency.agencyId})">Delete</button>
+                <button href="#" class="btn btn-primary" onClick="showUpdate(${agency.agencyId})">Edit</button>
+            </div>
+            `;
+        }
+        p2.innerHTML = html;
+    });
+}
+
+function fetchAgencies() {
+    fetch(BASE_AGENCY_URL)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject();
+        })
+        .then(populateAgencies())
+        .catch(console.error);
+}
+//#endregion
+
+//#region EVENT HANDLERS
+document.getElementById("linkAgencies")
+    .addEventListener("click", evt => {
+        showAgencyList();
+        evt.preventDefault();
+    });
+//#endregion
+//#endregion
+
+//#region ALIAS
+//#region MODIFY ALIAS
+function populateAliases() {
+    findAllAliases().then(aliases => {
+        let html = "";
+        for (const alias of aliases) {
+            // This embedded HTML explicitly attaches a function call for update and delete.
+            html += 
+            `
+            <div class="card-footer text-muted">
+                Alias #${alias.aliasId} - [${findAgentById(alias.agentId).firstName}]
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">${alias.name}</h5>
+                <p class="card-text">Persona: ${alias.persona}</p>
+                <button href="#" class="btn btn-primary" onClick="showDelete(${alias.aliasId})">Delete</button>
+                <button href="#" class="btn btn-primary" onClick="showUpdate(${alias.aliasId})">Edit</button>
+            </div>
+            `;
+        }
+        p3.innerHTML = html;
+    });
+}
+
+function fetchAliases() {
+    // TODO: Not fetching this URL!
+    fetch(BASE_ALIAS_URL)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject();
+        })
+        .then(populateAliases())
+        .catch(console.error);
+}
+//#endregion
+
+//#region EVENT HANDLERS
+document.getElementById("linkAliases")
+    .addEventListener("click", evt => {
+        showAliasList();
+        evt.preventDefault();
+    });
+//#endregion
 //#endregion
 
 //#region HELPER FUNCTIONS
-async function findAll() {
-	const response = await fetch(BASE_URL);
+async function findAllAgents() {
+	const response = await fetch(BASE_AGENT_URL);
 	const data = await response.json();
 	return data;
 }
 
-async function findById(agentId) {
-	const response = await fetch(`${BASE_URL}/${agentId}`);
+async function findAgentById(agentId) {
+	const response = await fetch(`${BASE_AGENT_URL}/${agentId}`);
+	const data = await response.json();
+	return data;
+}
+
+async function findAllAliases() {
+	const response = await fetch(BASE_ALIAS_URL);
+	const data = await response.json();
+	return data;
+}
+
+async function findAliasById(aliasId) {
+	const response = await fetch(`${BASE_ALIAS_URL}/${aliasId}`);
+	const data = await response.json();
+	return data;
+}
+
+async function findAllAgencies() {
+	const response = await fetch(BASE_AGENCY_URL);
+	const data = await response.json();
+	return data;
+}
+
+async function findAgencyById(agencyId) {
+	const response = await fetch(`${BASE_AGENCY_URL}/${agencyId}`);
 	const data = await response.json();
 	return data;
 }
@@ -281,8 +414,11 @@ function resetForm() {
 }
 
 function formatDOB(dob) {
-    const [year, month, day] = dob.split('-');
-    return month + "/" + day + "/" + year;
+    if (dob != null) {
+        const [year, month, day] = dob.split('-');
+        return month + "/" + day + "/" + year;
+    }
+    return "Unknown";
 }
 
 function formatHeight(heightInInches) {
@@ -292,7 +428,7 @@ function formatHeight(heightInInches) {
 }
 
 function getAliases(agentId) {
-    let agent = findById(agentId);
+    let agent = findAgentById(agentId);
     return "No Alias";
 }
 //#endregion

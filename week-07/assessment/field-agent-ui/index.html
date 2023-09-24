@@ -32,7 +32,13 @@
                 <button onclick="openDropdown()" class="dropbtn btn-primary">Manage</button>
                 <div id="myDropdown" class="dropdown-content">
                     <div class="d-flex flex-grow-1 justify-content-start landing list">
-                        <button id="btnAdd" class="btn btn-primary">Add Agent</button>
+                        <button id="btnAddAgent" class="btn btn-primary">Add Agent</button>
+                    </div>
+                    <div class="d-flex flex-grow-1 justify-content-center landing list">
+                        <button id="btnAddAgency" class="btn btn-primary">Add Agency</button>
+                    </div>
+                    <div class="d-flex flex-grow-1 justify-content-end landing list">
+                        <button id="btnAddAlias" class="btn btn-primary">Add Alias</button>
                     </div>
                 </div>
             </div>
@@ -58,6 +64,32 @@
             <div class="alert alert-warning py-4 d-none">
                 No agents found.<br>
                 Do you want to add an agent?
+            </div>
+        </div>
+        <!-- the "list-agencies" view shows all agencies -->
+        <div class="list-agencies d-none">
+            <div class="card text-center">
+                <div class="card-header">
+                    Agencies
+                </div>
+                <p> </p>
+            </div>
+            <div class="alert alert-warning py-4 d-none">
+                No agencies found.<br>
+                Do you want to add an agency?
+            </div>
+        </div>
+        <!-- the "list-aliases" view shows all agent aliases -->
+        <div class="list-aliases d-none">
+            <div class="card text-center">
+                <div class="card-header">
+                    Aliases
+                </div>
+                <p> </p>
+            </div>
+            <div class="alert alert-warning py-4 d-none">
+                No aliases found.<br>
+                Do you want to add an alias?
             </div>
         </div>
         <!-- the "form" view displays an HTML form to either add or update an agent -->
