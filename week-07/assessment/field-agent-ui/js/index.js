@@ -1,12 +1,15 @@
+//#region INIT
 const DISPLAY_NONE = "d-none";
 const BASE_URL = 'http://localhost:8080/api/agent';
 
+const deleteAgent = document.getElementById("deleteAgent");
 const form = document.querySelector("form");
-let currentView = "landing";
-
 const div = document.querySelector(".list > div");
 const p = div.querySelector("p");
+let currentView = "landing";
+//#endregion
 
+//#region VIEW
 function changeView(view) {
     for (const element of document.querySelectorAll(`.${currentView}`)) {
         element.classList.add(DISPLAY_NONE);
@@ -17,6 +20,51 @@ function changeView(view) {
     currentView = view;
 }
 
+function showList() {
+    fetchAgents();
+    changeView("list");
+}
+
+function showValidationSummary(errors) {
+    let html = '<ul class="mb-0">';
+    for (const err of errors) {
+        html += `<li>${err}</li>`;
+    }
+    html += '</ul>';
+    const validationSummary = document.getElementById("validationSummary");
+    validationSummary.classList.remove(DISPLAY_NONE);
+    validationSummary.innerHTML = html;
+}
+
+function hideValidationSummary() {
+    document.getElementById("validationSummary").classList.add(DISPLAY_NONE);
+}
+//#endregion
+
+//#region ADD
+async function add(agent) {
+    const config = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(agent)
+    };
+    const response = await fetch(BASE_URL, config);
+	if (response.status === 201) {
+		return null;
+	} else if (response.status === 400) {
+		const data = await response.json();
+		return data;
+	} else {
+		return Promise.reject(
+			new Error(`Unexpected status code ${response.status}`)
+		);
+	}
+}
+//#endregion
+
+//#region UPDATE
 // Populate an existing agent into the HTML form.
 async function showUpdate(agentId) {
 	const agent = await findById(agentId);
@@ -36,28 +84,43 @@ async function showUpdate(agentId) {
     changeView("form");
 }
 
+async function update(agent) {
+	const config = {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(agent),
+	};
+	const response = await fetch(`${BASE_URL}/${agent.agentId}`, config);
+	if (response.status === 204) {
+		return null;
+	} else if (response.status === 400) {
+		const data = await response.json();
+		return data;
+	} else {
+		// 404 and other errors
+		return Promise.reject(
+			new Error(`Unexpected status code ${response.status}`)
+		);
+	}
+}
+//#endregion
+
+//#region DELETE
 // Populate an existing agent into a delete confirmation view. 
 // The confirmation view should allow for a delete or cancel.
 // Cancel returns to the agent list view.
 async function showDelete(agentId) {
-    const agentToDelete = await findById(agentId);
+    const agent = await findById(agentId);
+	if (!agent) {
+		return;
+	}
+
+    deleteAgent.agentId = agent.agentId;
+
     // Pulling up a confirmation window to delete the agent
-    const deleteConfirmation = window.confirm(
-		`Are you sure you want to delete ${agentToDelete.firstName} ${agentToDelete.lastName}?`
-	);
-    // If we say yes, then call the function that removes the agent from the database
-    if (deleteConfirmation) {
-        confirmDelete(agentId).then(res => {
-            // If the result is null, then we populate the agents
-            if (!res) {
-                // Success
-                populateAgents();
-            }
-        }).catch(console.error);
-    }
-    else {
-        window.alert(`${agentToDelete.firstName} ${agentToDelete.lastName} was not deleted!`);
-    }
+    changeView("del");
 }
 
 // Create a function that deletes an agent when the
@@ -70,17 +133,14 @@ async function confirmDelete(agentId) {
 	};
     // Creating the response
 	const response = await fetch(`${BASE_URL}/${agentId}`, config);
-    // Checking for result
-    if (response.success) {
-        // Success
-        return null;
-    }
-    else {
-        // Error
-        return Promise.reject(new Error(`Error: Status Code ${response.status}`));
-    }
-}
 
+    // Update and change
+    populateAgents();
+    showList();
+}
+//#endregion
+
+//#region MODIFY AGENTS
 function populateAgents() {
     findAll().then(agents => {
         let html = "";
@@ -115,26 +175,6 @@ function fetchAgents() {
         .catch(console.error);
 }
 
-function showList() {
-    fetchAgents();
-    changeView("list");
-}
-
-function showValidationSummary(errors) {
-    let html = '<ul class="mb-0">';
-    for (const err of errors) {
-        html += `<li>${err}</li>`;
-    }
-    html += '</ul>';
-    const validationSummary = document.getElementById("validationSummary");
-    validationSummary.classList.remove(DISPLAY_NONE);
-    validationSummary.innerHTML = html;
-}
-
-function hideValidationSummary() {
-    document.getElementById("validationSummary").classList.add(DISPLAY_NONE);
-}
-
 // Modify this function to allow for update.
 // Don't create two different forms for create and update.
 function submitForm(evt) {
@@ -158,6 +198,7 @@ function submitForm(evt) {
             .then(errors => {
                 // success
                 if (!errors) {
+                    resetForm();
                     showList();
                 } else if (errors.messages.length) {
                     // errors
@@ -180,67 +221,14 @@ async function save(agent) {
         return add(agent);
     }
 }
+//#endregion
 
-async function add(agent) {
-    const config = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(agent)
-    };
-    const response = await fetch(BASE_URL, config);
-	if (response.status === 201) {
-		return null;
-	} else if (response.status === 400) {
-		const data = await response.json();
-		return data;
-	} else {
-		return Promise.reject(
-			new Error(`Unexpected status code ${response.status}`)
-		);
-	}
-}
-
-async function update(agent) {
-	const config = {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(agent),
-	};
-	const response = await fetch(`${BASE_URL}/${agent.agentId}`, config);
-	if (response.status === 204) {
-		return null;
-	} else if (response.status === 400) {
-		const data = await response.json();
-		return data;
-	} else {
-		// 404 and other errors
-		return Promise.reject(
-			new Error(`Unexpected status code ${response.status}`)
-		);
-	}
-}
-
-async function findAll() {
-	const response = await fetch(BASE_URL);
-	const data = await response.json();
-	return data;
-}
-
-async function findById(agentId) {
-	const response = await fetch(`${BASE_URL}/${agentId}`);
-	const data = await response.json();
-	return data;
-}
-
-function resetForm() {
-	form.reset();
-}
-
-// event handlers
+//#region EVENT HANDLERS
+document.getElementById("linkHome")
+    .addEventListener("click", evt => {
+        evt.preventDefault();
+        changeView("landing");
+    });
 
 document.getElementById("linkAgents")
     .addEventListener("click", evt => {
@@ -263,11 +251,35 @@ form.addEventListener("submit", submitForm);
 document.querySelector("form button[type=button]")
     .addEventListener("click", () => {
         showList();
+    }); 
+
+deleteAgent.addEventListener("submit", () => {
+        confirmDelete(deleteAgent.agentId);
     });
 
-// Additional Function(s):
+document.getElementById("deleteAgent").querySelector("button[type=button]")
+    .addEventListener("click", () => {
+        showList();
+    });
+//#endregion
 
-// Formatting
+//#region HELPER FUNCTIONS
+async function findAll() {
+	const response = await fetch(BASE_URL);
+	const data = await response.json();
+	return data;
+}
+
+async function findById(agentId) {
+	const response = await fetch(`${BASE_URL}/${agentId}`);
+	const data = await response.json();
+	return data;
+}
+
+function resetForm() {
+	form.reset();
+}
+
 function formatDOB(dob) {
     const [year, month, day] = dob.split('-');
     return month + "/" + day + "/" + year;
@@ -280,9 +292,12 @@ function formatHeight(heightInInches) {
 }
 
 function getAliases(agentId) {
+    let agent = findById(agentId);
     return "No Alias";
 }
+//#endregion
 
+//#region MISC FUNCTIONS
 /* Dropdown Menu
 When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
@@ -303,3 +318,4 @@ function openDropdown() {
       }
     }
   }
+//#endregion
