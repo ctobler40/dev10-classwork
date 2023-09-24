@@ -4,9 +4,6 @@ const BASE_URL = 'http://localhost:8080/api/agent';
 const form = document.querySelector("form");
 let currentView = "landing";
 
-const div = document.querySelector(".list > div");
-const p = div.querySelector("p");
-
 function changeView(view) {
     for (const element of document.querySelectorAll(`.${currentView}`)) {
         element.classList.add(DISPLAY_NONE);
@@ -17,7 +14,7 @@ function changeView(view) {
     currentView = view;
 }
 
-// Populate an existing agent into the HTML form.
+// TODO: Populate an existing agent into the HTML form.
 async function showUpdate(agentId) {
 	const agent = await findById(agentId);
 	if (!agent) {
@@ -39,31 +36,30 @@ async function showUpdate(agentId) {
 // Populate an existing agent into a delete confirmation view. 
 // The confirmation view should allow for a delete or cancel.
 // Cancel returns to the agent list view.
-async function showDelete(agentId) {
+async function confirmDelete(agentId) {
     const agentToDelete = await findById(agentId);
     // Pulling up a confirmation window to delete the agent
     const deleteConfirmation = window.confirm(
-		`Are you sure you want to delete ${agentToDelete.firstName} ${agentToDelete.lastName}?`
+		`Are you sure you want to delete Agent ID: ${agentId}?`
 	);
     // If we say yes, then call the function that removes the agent from the database
     if (deleteConfirmation) {
-        confirmDelete(agentId).then(res => {
-            // If the result is null, then we populate the agents
+        showDelete(agentId).then(res => {
+            // If the result is null, then we populate the agent
             if (!res) {
-                // Success
                 populateAgents();
             }
         }).catch(console.error);
     }
     else {
-        window.alert(`${agentToDelete.firstName} ${agentToDelete.lastName} was not deleted!`);
+        window.alert(`Agent ID: ${agentId} was not deleted!`);
     }
 }
 
 // Create a function that deletes an agent when the
 // delete confirmation view is confirmed. Confirmation can be a form submission
 // or a button click.
-async function confirmDelete(agentId) {
+async function showDelete(agentId) {
     // Creating the config
     const config = {
 		method: 'DELETE',
@@ -81,26 +77,35 @@ async function confirmDelete(agentId) {
     }
 }
 
-function populateAgents() {
-    findAll().then(agents => {
-        let html = "";
-        for (const agent of agents) {
-            // This embedded HTML explicitly attaches a function call for update and delete.
-            html += 
-            `
-            <div class="card-footer text-muted">
-                [${getAliases(agent.agentId)}]
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</h5>
-                <p class="card-text">Date of Birth: ${formatDOB(agent.dob)} ~~~ Height: ${formatHeight(agent.heightInInches)}</p>
-                <button href="#" class="btn btn-primary" onClick="showDelete(${agent.agentId})">Delete</button>
-                <button href="#" class="btn btn-primary" onClick="showUpdate(${agent.agentId})">Edit</button>
-            </div>
-            `;
-        }
-        p.innerHTML = html;
-    });
+function populateAgents(agents) {
+
+    const div = document.querySelector(".list > div");
+    const p = div.querySelector("p");
+    const warning = document.querySelector(".list > div");
+
+    if (agents.length === 0) {
+        div.classList.add(DISPLAY_NONE);
+        warning.classList.remove(DISPLAY_NONE);
+        return;
+    }
+
+    let html = "";
+    for (const agent of agents) {
+        // This embedded HTML explicitly attaches a function call for update and delete.
+        html += `
+        <div class="card-footer text-muted">
+            [${getAliases(agent.agentId)}]
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</h5>
+            <p class="card-text">Date of Birth: ${formatDOB(agent.dob)} ~~~ Height: ${formatHeight(agent.heightInInches)}</p>
+            <button href="#" class="btn btn-primary" onClick="confirmDelete(${agent.agentId})">Delete</button>
+            <button href="#" class="btn btn-primary" onClick="showUpdate(${agent.agentId})">Edit</button>
+        </div>
+        `;
+    }
+
+    p.innerHTML = html;
 }
 
 function fetchAgents() {
@@ -222,12 +227,6 @@ async function update(agent) {
 			new Error(`Unexpected status code ${response.status}`)
 		);
 	}
-}
-
-async function findAll() {
-	const response = await fetch(BASE_URL);
-	const data = await response.json();
-	return data;
 }
 
 async function findById(agentId) {
