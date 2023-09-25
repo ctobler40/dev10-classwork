@@ -84,4 +84,20 @@ class SecurityClearanceServiceTest {
         assertEquals(ResultType.INVALID, actual.getType());
     }
 
+    @Test
+    void shouldDelete() {
+        service.add(new SecurityClearance(6, "Name"));
+        Result<SecurityClearance> result = service.deleteById(3);
+        assertEquals(ResultType.SUCCESS, result.getType());
+
+        result = service.deleteById(-1);
+        assertEquals(ResultType.INVALID, result.getType());
+    }
+
+    @Test
+    void noDuplicateNames() {
+        service.add(new SecurityClearance(7, "HelloThere"));
+        Result<SecurityClearance> result = service.add(new SecurityClearance(8, "HelloThere"));
+        assertEquals(ResultType.INVALID, result.getType());
+    }
 }
