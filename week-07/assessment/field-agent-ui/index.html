@@ -143,6 +143,19 @@
                 </div>
             </form>
         </div>
+        <!-- the "delAgency" view displays an HTML form to agree on deleting an angency -->
+       <div class="delAgency d-none" id="deleteAgency">
+           <form>
+               <input type="hidden" id="agencyId" name="agencyId" />
+               <div class="card-header">
+                   Are you sure you want to delete this agency?
+               </div>
+               <div class="mb-3">
+                   <button type="submit" class="btn btn-primary me-2">Yes</button>
+                   <button type="button" class="btn btn-warning">No</button>
+               </div>
+           </form>
+       </div>
     </main>
     <script src="./js/index.js"></script>
 </body>

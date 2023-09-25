@@ -6,6 +6,7 @@ const BASE_AGENCY_URL = 'http://localhost:8080/api/agency';
 const BASE_ALIAS_URL = 'http://localhost:8080/api/agent/alias';
 
 const deleteAgent = document.getElementById("deleteAgent");
+const deleteAgency = document.getElementById("deleteAgency");
 const form = document.querySelector("form");
 
 const div = document.querySelector(".list > div");
@@ -222,9 +223,9 @@ function submitForm(evt) {
                     showAgentList();
                 } else if (errors.messages.length) {
                     // errors
-                    renderErrors(errors.messages);
+                    showValidationSummary(errors.messages);
                 } else {
-                    renderErrors(['Something unexpected went wrong']);
+                    showValidationSummary(['Something unexpected went wrong']);
                 }
             })
             .catch(console.error);
@@ -280,6 +281,80 @@ document.getElementById("deleteAgent").querySelector("button[type=button]")
 //#endregion
 
 //#region AGENCY
+// TODO: Hadn't gotten to add agency. Right now just adding them through SQL
+
+//#region UPDATE
+// Populate an existing agent into the HTML form.
+async function showAgencyUpdate(agencyId) {
+	const agency = await findAgencyById(agencyId);
+	if (!agency) {
+		return;
+	}
+
+    // Fill up the form with the data we already know from the agent we found
+	form.shortName.value = agency.shortName;
+	form.longName.value = agency.longName;
+    form.agencyId.value = agency.agencyId;
+
+    // TODO: Agency Update still needs a view
+}
+
+async function updateAgency(agency) {
+	const config = {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(agency),
+	};
+	const response = await fetch(`${BASE_AGENCY_URL}/${agency.agencyId}`, config);
+	if (response.status === 204) {
+		return null;
+	} else if (response.status === 400) {
+		const data = await response.json();
+		return data;
+	} else {
+		// 404 and other errors
+		return Promise.reject(
+			new Error(`Unexpected status code ${response.status}`)
+		);
+	}
+}
+//#endregion
+
+//#region DELETE
+// Populate an existing agent into a delete confirmation view. 
+// The confirmation view should allow for a delete or cancel.
+// Cancel returns to the agent list view.
+async function showAgencyDelete(agencyId) {
+    const agency = await findAgencyById(agencyId);
+	if (!agency) {
+		return;
+	}
+
+    deleteAgency.agencyId = agency.agencyId;
+
+    // TODO: This view needs to be changed to an agency del modal
+    changeView("delAgency");
+}
+
+// Create a function that deletes an agent when the
+// delete confirmation view is confirmed. Confirmation can be a form submission
+// or a button click.
+async function confirmAgencyDelete(agencyId) {
+    // Creating the config
+    const config = {
+		method: 'DELETE',
+	};
+    // Creating the response
+	const response = await fetch(`${BASE_AGENCY_URL}/${agencyId}`, config);
+
+    // Update and change
+    populateAgencies();
+    showAgencyList();
+}
+//#endregion
+
 //#region MODIFY AGENCY
 function populateAgencies() {
     findAllAgencies().then(agencies => {
@@ -294,8 +369,8 @@ function populateAgencies() {
             <div class="card-body">
                 <h5 class="card-title">${agency.shortName}</h5>
                 <p class="card-text">Full Name: ${agency.longName}</p>
-                <button href="#" class="btn btn-primary" onClick="showDelete(${agency.agencyId})">Delete</button>
-                <button href="#" class="btn btn-primary" onClick="showUpdate(${agency.agencyId})">Edit</button>
+                <button href="#" class="btn btn-primary" onClick="showAgencyDelete(${agency.agencyId})">Delete</button>
+                <button href="#" class="btn btn-primary" onClick="showAgencyUpdate(${agency.agencyId})">Edit</button>
             </div>
             `;
         }
@@ -314,6 +389,37 @@ function fetchAgencies() {
         .then(populateAgencies())
         .catch(console.error);
 }
+
+function submitAgencyForm(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    hideValidationSummary();
+
+    if (form.checkValidity()) {
+        // We are creating out agent here by calling for the values from the html
+        const agency = {
+            agencyId: parseInt(form.agencyId.value, 10),
+            shortName: form.shortName.value,
+            longName: form.longName.value,
+        };
+
+        // Making the HOTTP request to our client
+        updateAgency(agency)
+            .then(errors => {
+                // success
+                if (!errors) {
+                    resetForm();
+                    showAgencyList();
+                } else if (errors.messages.length) {
+                    // errors
+                    showValidationSummary(errors.messages);
+                } else {
+                    showValidationSummary(['Something unexpected went wrong']);
+                }
+            })
+            .catch(console.error);
+    }
+}
 //#endregion
 
 //#region EVENT HANDLERS
@@ -321,6 +427,15 @@ document.getElementById("linkAgencies")
     .addEventListener("click", evt => {
         showAgencyList();
         evt.preventDefault();
+    });
+   
+deleteAgency.addEventListener("submit", () => {
+        confirmAgencyDelete(deleteAgency.agencyId);
+    });
+
+document.getElementById("deleteAgency").querySelector("button[type=button]")
+    .addEventListener("click", () => {
+        showAgencyList();
     });
 //#endregion
 //#endregion
@@ -332,6 +447,7 @@ function populateAliases() {
         let html = "";
         for (const alias of aliases) {
             // This embedded HTML explicitly attaches a function call for update and delete.
+            // TODO: Hadn't gotten to showAliasDelete and showAliasUpdate
             html += 
             `
             <div class="card-footer text-muted">
@@ -340,8 +456,8 @@ function populateAliases() {
             <div class="card-body">
                 <h5 class="card-title">${alias.name}</h5>
                 <p class="card-text">Persona: ${alias.persona}</p>
-                <button href="#" class="btn btn-primary" onClick="showDelete(${alias.aliasId})">Delete</button>
-                <button href="#" class="btn btn-primary" onClick="showUpdate(${alias.aliasId})">Edit</button>
+                <button href="#" class="btn btn-primary" onClick="showAliasDelete(${alias.aliasId})">Delete</button>
+                <button href="#" class="btn btn-primary" onClick="showAliasUpdate(${alias.aliasId})">Edit</button>
             </div>
             `;
         }
