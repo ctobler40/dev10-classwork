@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./favicon.ico" rel="icon" />
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/app.css">
     <title>Field Agent</title>
 </head>
 
@@ -13,22 +14,39 @@
     <main class="container">
         <!-- navigation is always visible other than the "Add Agent" button -->
         <div class="d-flex align-items-center">
-            <ul class="nav my-4">
+            <ul class="nav my-4" style="align-items: center;">
+                <li class="nav-item">
+                    <a id="linkHome" href="#" class="nav-link" style="font-size: 40px;">Field Agent Web</a>
+                </li>
                 <li class="nav-item">
                     <a id="linkAgents" href="#" class="nav-link">Agents</a>
                 </li>
                 <li class="nav-item">
                     <a id="linkAgencies" href="#" class="nav-link">Agencies</a>
                 </li>
+                <li class="nav-item">
+                    <a id="linkAliases" href="#" class="nav-link">Aliases</a>
+                </li>
             </ul>
-            <div class="d-flex flex-grow-1 justify-content-end landing list">
-                <button id="btnAdd" class="btn btn-primary">Add Agent</button>
+            <div class="dropdown">
+                <button onclick="openDropdown()" class="dropbtn btn-primary">Manage</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <div class="d-flex flex-grow-1 justify-content-start landing list">
+                        <button id="btnAddAgent" class="btn btn-primary">Add Agent</button>
+                    </div>
+                    <div class="d-flex flex-grow-1 justify-content-center landing list">
+                        <button id="btnAddAgency" class="btn btn-primary">Add Agency</button>
+                    </div>
+                    <div class="d-flex flex-grow-1 justify-content-end landing list">
+                        <button id="btnAddAlias" class="btn btn-primary">Add Alias</button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- we start on the "landing" view -->
         <div class="landing">
             <div class="container-fluid">
-                <h1 class="display-5">Field Agent Web</h1>
+                <h1 class="display-4">Welcome to Field Agent Web!</h1>
                 <div class="my-4">
                     <img class="img-fluid border border-secondary rounded-5"
                         src="https://picsum.photos/id/209/1200/450?blur=2" alt="agents in a tunnel">
@@ -37,30 +55,51 @@
         </div>
         <!-- the "list" view shows all agents -->
         <div class="list d-none">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>DOB</th>
-                        <th>Height</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody> </tbody>
-            </table>
+            <div class="card text-center">
+                <div class="card-header">
+                    Agents
+                </div>
+                <p> </p>
+            </div>
             <div class="alert alert-warning py-4 d-none">
                 No agents found.<br>
                 Do you want to add an agent?
+            </div>
+        </div>
+        <!-- the "list-agencies" view shows all agencies -->
+        <div class="list-agencies d-none">
+            <div class="card text-center">
+                <div class="card-header">
+                    Agencies
+                </div>
+                <p> </p>
+            </div>
+            <div class="alert alert-warning py-4 d-none">
+                No agencies found.<br>
+                Do you want to add an agency?
+            </div>
+        </div>
+        <!-- the "list-aliases" view shows all agent aliases -->
+        <div class="list-aliases d-none">
+            <div class="card text-center">
+                <div class="card-header">
+                    Aliases
+                </div>
+                <p> </p>
+            </div>
+            <div class="alert alert-warning py-4 d-none">
+                No aliases found.<br>
+                Do you want to add an alias?
             </div>
         </div>
         <!-- the "form" view displays an HTML form to either add or update an agent -->
         <div class="form d-none">
             <h1 class="display-6">Add an Agent</h1>
             <div id="validationSummary" class="alert alert-danger d-none">
-
             </div>
             <form>
                 <div class="row mb-3">
+                    <input type="hidden" id="agentId" name="agentId" />
                     <div class="col">
                         <label class="form-label" for="firstName">First Name</label>
                         <input id="firstName" name="firstName" type="text" class="form-control" required>
@@ -87,10 +126,36 @@
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary me-2">Save</button>
-                    <button type="button" class="btn btn-warning">Cancel</button>
+                    <button type="button" class="btn btn-warning" onclick="resetForm()">Cancel</button>
                 </div>
             </form>
         </div>
+         <!-- the "del" view displays an HTML form to agree on deleting an agent -->
+        <div class="del d-none" id="deleteAgent">
+            <form>
+                <input type="hidden" id="agentId" name="agentId" />
+                <div class="card-header">
+                    Are you sure you want to delete this agent?
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary me-2">Yes</button>
+                    <button type="button" class="btn btn-warning">No</button>
+                </div>
+            </form>
+        </div>
+        <!-- the "delAgency" view displays an HTML form to agree on deleting an angency -->
+       <div class="delAgency d-none" id="deleteAgency">
+           <form>
+               <input type="hidden" id="agencyId" name="agencyId" />
+               <div class="card-header">
+                   Are you sure you want to delete this agency?
+               </div>
+               <div class="mb-3">
+                   <button type="submit" class="btn btn-primary me-2">Yes</button>
+                   <button type="button" class="btn btn-warning">No</button>
+               </div>
+           </form>
+       </div>
     </main>
     <script src="./js/index.js"></script>
 </body>

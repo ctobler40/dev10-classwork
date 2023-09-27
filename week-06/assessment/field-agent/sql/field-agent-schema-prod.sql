@@ -95,3 +95,9 @@ create table alias (
         foreign key (agent_id)
         references agent(agent_id)
 );
+
+-- data
+insert into security_clearance values
+	(1, 'Secret'),
+    (2, 'Top Secret');
+
