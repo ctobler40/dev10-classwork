@@ -5,6 +5,7 @@ select security_clearance_id, name as security_clearance_name from security_clea
 select count(*) from agency_agent where security_clearance_id = 1;
 
 update security_clearance set `name` = "Tree" where security_clearance_id = 3;
+update security_clearance set `name` = "Hibernation" where security_clearance_id = 5;
 
 select security_clearance_id, name as security_clearance_name from security_clearance;
 

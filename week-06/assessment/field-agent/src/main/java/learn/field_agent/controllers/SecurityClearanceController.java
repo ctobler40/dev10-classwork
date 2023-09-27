@@ -69,14 +69,18 @@ public class SecurityClearanceController
     // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
     // Only allow deletion if a security clearance key isn't referenced.
     @DeleteMapping("/{securityClearanceId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int securityClearanceId)
+    public ResponseEntity<Object> deleteById(@PathVariable int securityClearanceId)
     {
         // How could you update this to return result information instead of status codes?
         // What status code would you return if the user tried to delete a SC in use?
-        if (securityClearanceService.deleteById(securityClearanceId))
+        Result<SecurityClearance> result = securityClearanceService.deleteById(securityClearanceId);
+        if (result.isSuccess())
         {
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            // Return no content if it runs properly
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        // Otherwise, we return the error we are getting
+        return ErrorResponse.build(result);
     }
 }
