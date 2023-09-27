@@ -1,15 +1,22 @@
 package learn.field_agent.data;
 
+import learn.field_agent.data.KnownGoodState;
+import learn.field_agent.data.SecurityClearanceJdbcTemplateRepository;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SecurityClearanceJdbcTemplateRepositoryTest {
+
+    final static int NEXT_ID = 9;
 
     @Autowired
     SecurityClearanceJdbcTemplateRepository repository;
@@ -23,19 +30,50 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindById() {
-        SecurityClearance secret = new SecurityClearance(1, "Secret");
-        SecurityClearance topSecret = new SecurityClearance(2, "Top Secret");
+    void shouldFindAll() {
+        List<SecurityClearance> scs = repository.findAll();
+        assertNotNull(scs);
 
-        SecurityClearance actual = repository.findById(1);
-        assertEquals(secret, actual);
-
-        actual = repository.findById(2);
-        assertEquals(topSecret, actual);
-
-        actual = repository.findById(3);
-        assertEquals(null, actual);
+        // can't predict order
+        // if delete is first, we're down to 7
+        // if add is first, we may go as high as 10
+        assertTrue(scs.size() >= 7 && scs.size() <= 10);
     }
 
-    // TODO: You still need to add tests for SecurityClearance and Mission
+    @Test
+    void shouldAdd() {
+        // all fields
+        SecurityClearance sc = makeSecurityClearance();
+        SecurityClearance actual = repository.add(sc);
+        assertNotNull(actual);
+        assertEquals(NEXT_ID, actual.getSecurityClearanceId());
+
+        // null dob
+        sc = makeSecurityClearance();
+        sc.setName(null);
+        actual = repository.add(sc);
+        assertNotNull(actual);
+        assertEquals(NEXT_ID + 1, actual.getSecurityClearanceId());
+    }
+
+    @Test
+    void shouldUpdate() {
+        SecurityClearance sc = makeSecurityClearance();
+        sc.setSecurityClearanceId(3);
+        assertTrue(repository.update(sc));
+        sc.setSecurityClearanceId(13);
+        assertFalse(repository.update(sc));
+    }
+
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteById(NEXT_ID));
+        assertFalse(repository.deleteById(NEXT_ID));
+    }
+
+    private SecurityClearance makeSecurityClearance() {
+        SecurityClearance sc = new SecurityClearance();
+        sc.setName("Test");
+        return sc;
+    }
 }

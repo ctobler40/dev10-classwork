@@ -41,7 +41,7 @@ public class SecurityClearanceService
             return result;
         }
 
-        if (sc.getSecurityClearanceId() != 0)
+        if (sc.getSecurityClearanceId() <= 0)
         {
             result.addMessage("securityClearanceId cannot be set for `add` operation", ResultType.INVALID);
             return result;
@@ -80,17 +80,23 @@ public class SecurityClearanceService
         return result;
     }
 
-    public boolean deleteById(int scId)
+    public Result<SecurityClearance> deleteById(int scId)
     {
         // This requires a strategy.
         // It's probably not appropriate to delete agency_agent records that depend on a security clearance.
         // Only allow deletion if a security clearance key isn't referenced.
         Result<SecurityClearance> result = validate(repository.findById(scId));
         if (!result.isSuccess()) {
-            return false;
+            return result;
         }
 
-        return repository.deleteById(scId);
+        if (!repository.deleteById(scId))
+        {
+            String msg = String.format("securityClearanceId: %s, not found", scId);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
     }
 
     private Result<SecurityClearance> validate(SecurityClearance sc)
